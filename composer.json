@@ -1,0 +1,16 @@
+{
+    "name": "kphoen/rusty",
+    "type": "library",
+    "license": "MIT",
+    "bin": ["bin/rusty"],
+    "require": {
+        "php": "~7.0",
+        "symfony/process": "~3.0",
+        "symfony/console": "~3.0",
+        "symfony/finder": "~3.0",
+        "nikic/php-parser": "~2.0"
+    },
+    "autoload": {
+        "psr-4": { "Rusty\\": "src/" }
+    }
+}
