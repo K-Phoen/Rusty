@@ -88,8 +88,14 @@ class ExecutionContext
         $this->stopOnError = false;
     }
 
-    public function getFinder(): PHPFilesFinder
+    public function getFinder(): \Traversable
     {
-        return PHPFilesFinder::create()->in($this->target);
+        if (is_file($this->getTarget())) {
+            return new \ArrayIterator([
+                new \SplFileInfo($this->getTarget())
+            ]);
+        }
+
+        return PHPFilesFinder::create()->in($this->getTarget());
     }
 }
