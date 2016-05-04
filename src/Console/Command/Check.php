@@ -2,6 +2,7 @@
 
 namespace Rusty\Console\Command;
 
+use Rusty\Reports\ConsoleReporter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -46,6 +47,10 @@ class Check extends Command
             $executionContext->stopOnError();
         }
 
-        (new Rusty())->check($executionContext);
+        $reporter = new ConsoleReporter($output, $this->getHelper('formatter'));
+
+        $success = (new Rusty($reporter))->check($executionContext);
+
+        return $success ? 0 : 1;
     }
 }

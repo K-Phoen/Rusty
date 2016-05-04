@@ -26,7 +26,6 @@ function has_docblock_and_a_single_sample()
  * ```no_run
  * assert(has_docblock_and_samples() === 44);
  * ```
- * ```
  *
  * ```ignore
  * assert(has_docblock_and_samples() === 42 && && fatal())
@@ -56,6 +55,16 @@ function has_docblock_but_no_sample()
  * ```
  */
 function has_syntax_error_in_sample()
+{
+    return 42;
+}
+
+/**
+ * ```
+ * throw new \RuntimeException('Expected exception!');
+ * ```
+ */
+function throws_an_exception_during_execution()
 {
     return 42;
 }

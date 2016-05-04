@@ -24,6 +24,11 @@ class CodeSample
         return in_array($pragma, $this->pragmaDirectives, true);
     }
 
+    public function getPragmaDirectives(): array
+    {
+        return $this->pragmaDirectives;
+    }
+
     public function getFile(): \SplFileInfo
     {
         return $this->file;
