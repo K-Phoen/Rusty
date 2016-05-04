@@ -24,8 +24,7 @@ class PHPParserLinter implements Linter
         try {
             $this->parser->parse('<?php ' . $sample->getCode());
         } catch (ParserError $e) {
-            // TODO throw a specific exception
-            throw $e;
+            throw Exception\SyntaxError::inCodeSample($sample, $e->getMessage());
         }
     }
 }

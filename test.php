@@ -23,6 +23,16 @@ function bar()
     return 42;
 }
 
+/**
+ * ```
+ * has_syntax_error_in_sample(...)
+ * ```
+ */
+function has_syntax_error_in_sample()
+{
+    return 42;
+}
+
 
 /**
  * ```

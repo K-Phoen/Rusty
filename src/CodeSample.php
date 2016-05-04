@@ -17,7 +17,7 @@ class CodeSample
         $this->code = $code;
     }
 
-    public function getFile(): string
+    public function getFile(): \SplFileInfo
     {
         return $this->file;
     }
