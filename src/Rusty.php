@@ -12,7 +12,7 @@ class Rusty
     /** @var \Rusty\Extractor\SampleExtractor */
     private $sampleExtractor;
 
-    /** @var \Rusty\Linter\Linter */
+    /** @var \Rusty\Lint\Linter */
     private $linter;
 
     public function __construct()
@@ -31,6 +31,7 @@ class Rusty
     private function checkFile(\SplFileInfo $file, ExecutionContext $context)
     {
         var_dump('checking file', $file->getPathname());
+        /** @var CodeSample $sample */
         foreach ($this->sampleExtractor->extractSamples($file) as $sample) {
             var_dump('found code sample --->   '. $sample->getCode());
 

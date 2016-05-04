@@ -17,18 +17,20 @@ class PHPDocSampleExtractor implements SampleExtractor
     public function __construct()
     {
         $this->parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
-        $this->collectors = [
-            new NodeCollector(Node\Stmt\Function_::class),
-            new NodeCollector(Node\Stmt\Class_::class),
-            new NodeCollector(Node\Stmt\ClassMethod::class),
-        ];
     }
 
     public function extractSamples(\SplFileInfo $file): \Traversable
     {
         $nodes = $this->parser->parse(file_get_contents($file->getPathname()));
+        $collectors = [
+            new NodeCollector(Node\Stmt\Function_::class),
+            new NodeCollector(Node\Stmt\Class_::class),
+            new NodeCollector(Node\Stmt\ClassMethod::class),
+        ];
 
-        foreach ($this->collectors as $collector) {
+        /** @var NodeCollector $collector */
+        foreach ($collectors as $collector) {
+            /** @var Node $node */
             foreach ($collector->collect($nodes) as $node) {
                 $comment = $node->getDocComment();
 
@@ -48,7 +50,7 @@ class PHPDocSampleExtractor implements SampleExtractor
         $commentContent = $this->stripCommentStructure($docBlock);
         $matches = [];
 
-        if (!preg_match_all("/```(.*)```/simU", $commentContent, $matches, PREG_SET_ORDER)) {
+        if (!preg_match_all('/```(.*)```/smU', $commentContent, $matches, PREG_SET_ORDER)) {
             return;
         }
 
