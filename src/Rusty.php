@@ -30,16 +30,20 @@ class Rusty
 
     private function checkFile(\SplFileInfo $file, ExecutionContext $context)
     {
-        var_dump('checking file', $file->getPathname());
+        var_dump('checking file '. $file->getPathname());
         /** @var CodeSample $sample */
         foreach ($this->sampleExtractor->extractSamples($file) as $sample) {
             var_dump('found code sample --->   '. $sample->getCode());
+
+            if ($sample->hasPragma(PragmaParser::IGNORE)) {
+                continue;
+            }
 
             if (!$context->isLinterDisabled()) {
                 $this->linter->lint($sample, $context);
             }
 
-            if (!$context->isExecutionDisabled()) {
+            if (!$context->isExecutionDisabled() && !$sample->hasPragma(PragmaParser::NO_RUN)) {
                 $this->executor->execute($sample, $context);
             }
         }

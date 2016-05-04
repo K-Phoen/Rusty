@@ -9,14 +9,17 @@ use PhpParser\ParserFactory;
 
 use Rusty\CodeSample;
 use Rusty\PhpParser\NodeCollector;
+use Rusty\PragmaParser;
 
 class PHPDocSampleExtractor implements SampleExtractor
 {
     private $parser;
+    private $pragmaParser;
 
     public function __construct()
     {
         $this->parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
+        $this->pragmaParser = new PragmaParser();
     }
 
     public function extractSamples(\SplFileInfo $file): \Traversable
@@ -38,8 +41,10 @@ class PHPDocSampleExtractor implements SampleExtractor
                     continue;
                 }
 
-                foreach ($this->extractFromDocBlock($comment->getText()) as $codeSample) {
-                    yield new CodeSample($file, $comment->getLine(), $codeSample);
+                foreach ($this->extractFromDocBlock($comment->getText()) as $data) {
+                    $pragmaDirectives = $this->pragmaParser->getPragmaDirectives($data['pragma']);
+
+                    yield new CodeSample($file, $comment->getLine(), $data['code'], $pragmaDirectives);
                 }
             }
         }
@@ -50,12 +55,12 @@ class PHPDocSampleExtractor implements SampleExtractor
         $commentContent = $this->stripCommentStructure($docBlock);
         $matches = [];
 
-        if (!preg_match_all('/```(.*)```/smU', $commentContent, $matches, PREG_SET_ORDER)) {
+        if (!preg_match_all('/```([\w ]*)\R(.*)```/smU', $commentContent, $matches, PREG_SET_ORDER)) {
             return;
         }
 
         foreach ($matches as $match) {
-            yield trim($match[1]);
+            yield ['pragma' => trim($match[1]), 'code' => trim($match[2])];
         }
     }
 

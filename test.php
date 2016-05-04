@@ -3,14 +3,19 @@
 /**
  * Returns 42.
  *
- * Example:
+ * Examples:
  *
  * ```
  * assert(foo() === 42);
  * ```
  *
- * ```
+ * ```no_run
  * assert(foo() != 44);
+ * ```
+ * ```
+ *
+ * ```ignore
+ * assert(foo() === 42 && && fatal())
  * ```
  */
 function foo()
@@ -24,7 +29,7 @@ function bar()
 }
 
 /**
- * ```
+ * ```ignore
  * has_syntax_error_in_sample(...)
  * ```
  */
