@@ -21,6 +21,8 @@ class Check extends Command
                 new InputArgument('target', InputArgument::REQUIRED, 'The target to check.'),
                 new InputOption('no-lint', '', InputOption::VALUE_NONE, 'Do not lint any of the code samples.'),
                 new InputOption('no-execute', '', InputOption::VALUE_NONE, 'Do not execute any of the code samples.'),
+                new InputOption('stop-on-error', '', InputOption::VALUE_NONE, 'Stop the execution if an error happens.'),
+                new InputOption('bootstrap-file', '', InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL, 'File to include during the execution of a code sample.', []),
             ])
             ->setDescription('Check a directory or a file.')
         ;
@@ -29,7 +31,8 @@ class Check extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $target = $input->getArgument('target');
-        $executionContext = new ExecutionContext($target);
+        $bootstrapFiles = $input->getOption('bootstrap-file');
+        $executionContext = new ExecutionContext($target, $bootstrapFiles);
 
         if ($input->getOption('no-lint')) {
             $executionContext->disableLint();
@@ -37,6 +40,10 @@ class Check extends Command
 
         if ($input->getOption('no-execute')) {
             $executionContext->disableExecution();
+        }
+
+        if ($input->getOption('stop-on-error')) {
+            $executionContext->stopOnError();
         }
 
         (new Rusty())->check($executionContext);

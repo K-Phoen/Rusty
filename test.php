@@ -63,4 +63,9 @@ class Foo
     {
         return 55;
     }
+
+    public function bar()
+    {
+        return 42;
+    }
 }

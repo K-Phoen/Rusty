@@ -5,6 +5,7 @@ namespace Rusty\PhpParser;
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
 use PhpParser\PrettyPrinter;
+use Rusty\Runtime\Asserter;
 
 class AsserterTransformerVisitor extends NodeVisitorAbstract
 {
@@ -20,7 +21,7 @@ class AsserterTransformerVisitor extends NodeVisitorAbstract
 
             array_unshift($node->args, $originalCodeArg);
 
-            return new Node\Expr\FuncCall(new Node\Name('rusty_assert'), $node->args, $node->getAttributes());
+            return new Node\Expr\StaticCall(new Node\Name('\\' . Asserter::class), 'assert', $node->args, $node->getAttributes());
         }
     }
 }

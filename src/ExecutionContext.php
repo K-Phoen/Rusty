@@ -13,6 +13,7 @@ class ExecutionContext
     private $target;
     private $disableLint = false;
     private $disableExecute = false;
+    private $stopOnError = false;
     private $bootstrapFiles = [];
 
     public function __construct(string $target, array $bootstrapFiles = [])
@@ -70,6 +71,21 @@ class ExecutionContext
     public function isExecutionDisabled(): bool
     {
         return $this->disableExecute;
+    }
+
+    public function shouldStopOnError(): bool
+    {
+        return $this->stopOnError;
+    }
+
+    public function stopOnError()
+    {
+        $this->stopOnError = true;
+    }
+
+    public function continueOnError()
+    {
+        $this->stopOnError = false;
     }
 
     public function getFinder(): PHPFilesFinder

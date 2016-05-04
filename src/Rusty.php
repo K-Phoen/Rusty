@@ -40,17 +40,30 @@ class Rusty
         foreach ($this->sampleExtractor->extractSamples($file) as $sample) {
             var_dump('found code sample --->   '. $sample->getCode());
 
-            if ($sample->hasPragma(PragmaParser::IGNORE)) {
-                continue;
-            }
+            try {
+                $this->checkSample($sample, $context);
+            } catch (\Exception $e) {
+                if ($context->shouldStopOnError()) {
+                    throw $e;
+                }
 
-            if (!$context->isLinterDisabled()) {
-                $this->linter->lint($sample, $context);
+                echo $e->getTraceAsString();
             }
+        }
+    }
 
-            if (!$context->isExecutionDisabled() && !$sample->hasPragma(PragmaParser::NO_RUN)) {
-                $this->executor->execute($sample, $context);
-            }
+    private function checkSample(CodeSample $sample, ExecutionContext $context)
+    {
+        if ($sample->hasPragma(PragmaParser::IGNORE)) {
+            return;
+        }
+
+        if (!$context->isLinterDisabled()) {
+            $this->linter->lint($sample, $context);
+        }
+
+        if (!$context->isExecutionDisabled() && !$sample->hasPragma(PragmaParser::NO_RUN)) {
+            $this->executor->execute($sample, $context);
         }
     }
 }

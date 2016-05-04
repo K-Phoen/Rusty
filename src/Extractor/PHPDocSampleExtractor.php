@@ -13,6 +13,7 @@ use Rusty\PragmaParser;
 
 class PHPDocSampleExtractor implements SampleExtractor
 {
+    /** @var \PhpParser\Parser */
     private $parser;
     private $pragmaParser;
 
