@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rusty;
 
+use Rusty\Executor;
 use Rusty\Extractor\PHPDocSampleExtractor;
 use Rusty\Lint\PHPParserLinter;
 
@@ -15,10 +16,14 @@ class Rusty
     /** @var \Rusty\Lint\Linter */
     private $linter;
 
+    /** @var \Rusty\Executor\Executor */
+    private $executor;
+
     public function __construct()
     {
         $this->sampleExtractor = new PHPDocSampleExtractor();
         $this->linter = new PHPParserLinter();
+        $this->executor = new Executor\ExternalProcess();
     }
 
     public function check(ExecutionContext $context)

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Rusty;
 
+use Symfony\Component\Process\PhpExecutableFinder;
+
 use Rusty\Finder\PHPFilesFinder;
 
 class ExecutionContext
@@ -11,10 +13,28 @@ class ExecutionContext
     private $target;
     private $disableLint = false;
     private $disableExecute = false;
+    private $bootstrapFiles = [];
 
-    public function __construct(string $target)
+    public function __construct(string $target, array $bootstrapFiles = [])
     {
         $this->target = $target;
+        $this->bootstrapFiles = $bootstrapFiles;
+    }
+
+    public function getPhpExecutable(): string
+    {
+        $executable = (new PhpExecutableFinder())->find();
+
+        if (!$executable) {
+            throw new \RuntimeException('Could not find PHP executable.');
+        }
+
+        return $executable;
+    }
+
+    public function getBootstrapFiles(): array
+    {
+        return $this->bootstrapFiles;
     }
 
     public function getTarget(): string
