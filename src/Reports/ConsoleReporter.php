@@ -30,6 +30,14 @@ class ConsoleReporter implements Reporter
             $this->output->writeln(' <comment>⚐</comment> Skipped code sample', OutputInterface::VERBOSITY_VERBOSE);
         } else if ($report instanceof CodeSampleLinted) {
             $this->output->writeln(' <info>✔</info> Linted code sample', OutputInterface::VERBOSITY_VERBOSE);
+        } else if ($report instanceof CodeSampleLintFailure) {
+            $sample = $report->getSample();
+
+            $this->output->writeln(sprintf(' <error>✘</error> Syntax error in code sample %s:%s', $sample->getFile()->getPathname(), $sample->getLine()), OutputInterface::VERBOSITY_NORMAL);
+            $this->output->writeln(sprintf('%s', $this->formatSample($sample)), OutputInterface::VERBOSITY_NORMAL);
+
+            $message = explode("\n", trim(sprintf("[%s]\n%s", get_class($report->getError()), $report->getError()->getMessage())));
+            $this->output->writeln($this->formatter->formatBlock($message, 'error', true), OutputInterface::VERBOSITY_NORMAL);
         } else if ($report instanceof SuccessfulExecution) {
             $this->output->writeln(' <info>✔</info> Executed code sample', OutputInterface::VERBOSITY_VERBOSE);
         } else if ($report instanceof ExecutionFailedAsExpected) {

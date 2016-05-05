@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Rusty;
 
+use League\CommonMark\Inline\Element\Code;
 use Rusty\Executor;
 use Rusty\Extractor;
-use Rusty\Lint\PHPParserLinter;
+use Rusty\Lint;
 use Rusty\Reports;
 
 class Rusty
@@ -27,7 +28,7 @@ class Rusty
     {
         $this->reporter = $reporter ?: new Reports\BlackholeReporter();
 
-        $this->linter = new PHPParserLinter();
+        $this->linter = new Lint\PHPParserLinter();
         $this->executor = new Executor\ExternalProcess();
 
         $this->registerExtractor(new Extractor\PhpDoc());
@@ -89,27 +90,42 @@ class Rusty
         }
 
         if (!$context->isLinterDisabled()) {
-            $this->reporter->report(new Reports\CodeSampleLinted($sample));
-            $this->linter->lint($sample, $context);
+            $this->lintSample($sample, $context);
         }
 
         if (!$context->isExecutionDisabled() && !$sample->hasPragma(PragmaParser::NO_RUN)) {
-            $result = $this->executor->execute($sample, $context);
+            $this->executeSample($sample, $context);
+        }
+    }
 
-            if ($sample->hasPragma(PragmaParser::SHOULD_THROW) && !$result->isSuccessful()) {
-                $this->reporter->report(new Reports\ExecutionFailedAsExpected($sample, $result));
-            } else if ($sample->hasPragma(PragmaParser::SHOULD_THROW) && $result->isSuccessful()) {
-                $this->reporter->report(new Reports\ExecutionShouldHaveFailed($sample, $result));
+    private function lintSample(CodeSample $sample, ExecutionContext $context)
+    {
+        try {
+            $this->linter->lint($sample, $context);
+            $this->reporter->report(new Reports\CodeSampleLinted($sample));
+        } catch (Lint\Exception\SyntaxError $e) {
+            $this->reporter->report(new Reports\CodeSampleLintFailure($sample, $e));
+            throw $e;
+        }
+    }
 
-                throw Executor\Exception\ExecutionError::inCodeSample($sample, $result->getErrorOutput());
-            } else if (!$result->isSuccessful()) {
-                $error = Executor\Exception\ExecutionError::inCodeSample($sample, $result->getErrorOutput());
-                $this->reporter->report(new Reports\ExecutionFailure($sample, $result, $error));
+    public function executeSample(CodeSample $sample, ExecutionContext $context)
+    {
+        $result = $this->executor->execute($sample, $context);
 
-                throw $error;
-            } else {
-                $this->reporter->report(new Reports\SuccessfulExecution($sample, $result));
-            }
+        if ($sample->hasPragma(PragmaParser::SHOULD_THROW) && !$result->isSuccessful()) {
+            $this->reporter->report(new Reports\ExecutionFailedAsExpected($sample, $result));
+        } else if ($sample->hasPragma(PragmaParser::SHOULD_THROW) && $result->isSuccessful()) {
+            $this->reporter->report(new Reports\ExecutionShouldHaveFailed($sample, $result));
+
+            throw Executor\Exception\ExecutionError::inCodeSample($sample, $result->getErrorOutput());
+        } else if (!$result->isSuccessful()) {
+            $error = Executor\Exception\ExecutionError::inCodeSample($sample, $result->getErrorOutput());
+            $this->reporter->report(new Reports\ExecutionFailure($sample, $result, $error));
+
+            throw $error;
+        } else {
+            $this->reporter->report(new Reports\SuccessfulExecution($sample, $result));
         }
     }
 
