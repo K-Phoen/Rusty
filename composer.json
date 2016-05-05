@@ -15,5 +15,8 @@
     },
     "autoload": {
         "psr-4": { "Rusty\\": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "Rusty\\Tests\\": "tests/" }
     }
 }
