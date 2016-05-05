@@ -10,6 +10,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use Rusty\ExecutionContext;
+use Rusty\Extractor;
 use Rusty\Rusty;
 
 class Check extends Command
@@ -24,10 +25,18 @@ class Check extends Command
                 new InputOption('no-execute', '', InputOption::VALUE_NONE, 'Do not execute any of the code samples.'),
                 new InputOption('stop-on-error', '', InputOption::VALUE_NONE, 'Stop the execution if an error happens.'),
                 new InputOption('bootstrap-file', '', InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL, 'File to include during the execution of a code sample.', []),
-                new InputOption('allow-extension', '', InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL, 'File to include during the execution of a code sample.', ['php', 'mkd', 'md', 'markdown']),
+                new InputOption('allow-extension', '', InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL, 'File extensions to include during the analysis.', $this->defaultAllowedExtensions()),
             ])
             ->setDescription('Check a directory or a file.')
         ;
+    }
+
+    private function defaultAllowedExtensions()
+    {
+        return array_merge(
+            Extractor\Markdown::supportedExtensions(),
+            Extractor\PhpDoc::supportedExtensions()
+        );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

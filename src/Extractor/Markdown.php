@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Rusty\Extractor;
 
 use League\CommonMark\Block\Element\AbstractBlock;
-use League\CommonMark\Block\Element\FencedCode;
 use League\CommonMark\DocParser;
 use League\CommonMark\Environment;
 use Rusty\CodeSample;
@@ -27,8 +26,7 @@ class Markdown implements SampleExtractor
 
     public function extractSamples(\SplFileInfo $file): \Traversable
     {
-        $environment = Environment::createCommonMarkEnvironment();
-        $parser = new DocParser($environment);
+        $parser = new DocParser(Environment::createCommonMarkEnvironment());
         $documentAST = $parser->parse(file_get_contents($file->getRealPath()));
         $walker = $documentAST->walker();
 
