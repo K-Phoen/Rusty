@@ -1,0 +1,52 @@
+<?php
+
+namespace Rusty\Tests;
+
+use Rusty\CodeSample;
+use Rusty\ExecutionContext;
+use Rusty\Lint\PHPParserLinter;
+
+class PHPParserLinterTest extends \PHPUnit_Framework_TestCase
+{
+    /**
+     * @dataProvider validInputProvider
+     */
+    public function testValidCodeThrowNoError(string $code)
+    {
+        /** @var \SplFileInfo $splFileInfoMock */
+        $splFileInfoMock = $this->getMockBuilder('SplFileInfo')->disableOriginalConstructor()->getMock();
+        $sample = new CodeSample($splFileInfoMock, 42, $code);
+        $linter = new PHPParserLinter();
+
+        $this->assertTrue($linter->lint($sample, new ExecutionContext('./some-target-dir/')));
+    }
+
+    public function validInputProvider()
+    {
+        return [
+            [ 'foo();' ],
+            [ 'foo() && bar("lala");' ],
+        ];
+    }
+    /**
+     * @dataProvider invalidInputProvider
+     * @expectedException \Rusty\Lint\Exception\SyntaxError
+     */
+    public function testInvalidCodeThrowAnError(string $code)
+    {
+        /** @var \SplFileInfo $splFileInfoMock */
+        $splFileInfoMock = $this->getMockBuilder('SplFileInfo')->disableOriginalConstructor()->getMock();
+        $sample = new CodeSample($splFileInfoMock, 42, $code);
+        $linter = new PHPParserLinter();
+
+        $linter->lint($sample, new ExecutionContext('./some-target-dir/'));
+    }
+
+    public function invalidInputProvider()
+    {
+        return [
+            [ 'foo()' ],
+            [ 'foo() && && bar("lala");' ],
+        ];
+    }
+}
