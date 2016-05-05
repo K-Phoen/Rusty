@@ -19,7 +19,7 @@ class CodeSample
         $this->pragmaDirectives = $pragmaDirectives;
     }
 
-    public function hasPragma($pragma): bool
+    public function hasPragma(string $pragma): bool
     {
         return in_array($pragma, $this->pragmaDirectives, true);
     }
