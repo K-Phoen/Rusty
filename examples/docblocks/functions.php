@@ -60,7 +60,7 @@ function has_syntax_error_in_sample()
 }
 
 /**
- * ```
+ * ```should_throw
  * throw new \RuntimeException('Expected exception!');
  * ```
  */

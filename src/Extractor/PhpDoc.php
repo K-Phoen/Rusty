@@ -11,7 +11,7 @@ use Rusty\CodeSample;
 use Rusty\PhpParser\NodeCollector;
 use Rusty\PragmaParser;
 
-class PHPDocSampleExtractor implements SampleExtractor
+class PhpDoc implements SampleExtractor
 {
     /** @var \PhpParser\Parser */
     private $parser;
@@ -21,6 +21,11 @@ class PHPDocSampleExtractor implements SampleExtractor
     {
         $this->parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
         $this->pragmaParser = new PragmaParser();
+    }
+
+    public static function supportedExtensions(): array
+    {
+        return ['php'];
     }
 
     public function extractSamples(\SplFileInfo $file): \Traversable

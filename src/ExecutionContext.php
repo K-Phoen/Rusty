@@ -6,7 +6,7 @@ namespace Rusty;
 
 use Symfony\Component\Process\PhpExecutableFinder;
 
-use Rusty\Finder\PHPFilesFinder;
+use Rusty\Finder\FilesFinder;
 
 class ExecutionContext
 {
@@ -15,11 +15,13 @@ class ExecutionContext
     private $disableExecute = false;
     private $stopOnError = false;
     private $bootstrapFiles = [];
+    private $allowedExtensions = [];
 
-    public function __construct(string $target, array $bootstrapFiles = [])
+    public function __construct(string $target, array $bootstrapFiles = [], array $allowedExtensions = [])
     {
         $this->target = $target;
         $this->bootstrapFiles = $bootstrapFiles;
+        $this->allowedExtensions = $allowedExtensions;
     }
 
     public function getPhpExecutable(): string
@@ -96,6 +98,12 @@ class ExecutionContext
             ]);
         }
 
-        return PHPFilesFinder::create()->in($this->getTarget());
+        $finder = FilesFinder::create()->in($this->getTarget());
+
+        foreach ($this->allowedExtensions as $extension) {
+            $finder->name('*.'.$extension);
+        }
+
+        return $finder;
     }
 }

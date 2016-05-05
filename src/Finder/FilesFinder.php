@@ -6,7 +6,7 @@ namespace Rusty\Finder;
 
 use Symfony\Component\Finder\Finder;
 
-class PHPFilesFinder extends Finder
+class FilesFinder extends Finder
 {
     public function __construct()
     {
@@ -14,7 +14,6 @@ class PHPFilesFinder extends Finder
 
         $this
             ->files()
-            ->name('*.php')
             ->exclude('vendor')
         ;
     }

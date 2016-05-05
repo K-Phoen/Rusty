@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Rusty;
 
 use Rusty\Executor;
-use Rusty\Extractor\PHPDocSampleExtractor;
+use Rusty\Extractor;
 use Rusty\Lint\PHPParserLinter;
 use Rusty\Reports;
 
 class Rusty
 {
-    /** @var \Rusty\Extractor\SampleExtractor */
-    private $sampleExtractor;
+    /** @var array<string,\Rusty\Extractor\SampleExtractor> */
+    private $sampleExtractors;
 
     /** @var \Rusty\Lint\Linter */
     private $linter;
@@ -27,9 +27,18 @@ class Rusty
     {
         $this->reporter = $reporter ?: new Reports\BlackholeReporter();
 
-        $this->sampleExtractor = new PHPDocSampleExtractor();
         $this->linter = new PHPParserLinter();
         $this->executor = new Executor\ExternalProcess();
+
+        $this->registerExtractor(new Extractor\PhpDoc());
+        $this->registerExtractor(new Extractor\Markdown());
+    }
+
+    public function registerExtractor(Extractor\SampleExtractor $extractor)
+    {
+        foreach ($extractor::supportedExtensions() as $extension) {
+            $this->sampleExtractors[$extension] = $extractor;
+        }
     }
 
     public function check(ExecutionContext $context): bool
@@ -46,11 +55,16 @@ class Rusty
     private function checkFile(\SplFileInfo $file, ExecutionContext $context): bool
     {
         $success = true;
+        $extractor = $this->findExtractor($file);
+
+        if (!$extractor) {
+            return true;
+        }
 
         $this->reporter->report(new Reports\AnalyseFile($file));
 
         /** @var CodeSample $sample */
-        foreach ($this->sampleExtractor->extractSamples($file) as $sample) {
+        foreach ($extractor->extractSamples($file) as $sample) {
             $this->reporter->report(new Reports\CodeSampleFound($sample));
 
             try {
@@ -84,5 +98,17 @@ class Rusty
             $this->reporter->report(new Reports\CodeSampleExecuted($sample));
             $this->executor->execute($sample, $context);
         }
+    }
+
+    /**
+     * @return Extractor\SampleExtractor
+     */
+    private function findExtractor(\SplFileInfo $file)
+    {
+        if (!array_key_exists($file->getExtension(), $this->sampleExtractors)) {
+            return null;
+        }
+
+        return $this->sampleExtractors[$file->getExtension()];
     }
 }
