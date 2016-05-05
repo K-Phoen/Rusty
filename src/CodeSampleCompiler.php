@@ -14,7 +14,7 @@ class CodeSampleCompiler
 {
     /** @var \PhpParser\Parser */
     private $parser;
-    
+
     public function __construct()
     {
         $this->parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
@@ -37,6 +37,6 @@ class CodeSampleCompiler
 
         $prependCode .= sprintf('require_once "%s";', $sample->getFile()->getRealPath()) . PHP_EOL;
 
-        return '<?php ' . PHP_EOL . $prependCode . $preparedCode;
+        return '<?php' . PHP_EOL . $prependCode . $preparedCode;
     }
 }
