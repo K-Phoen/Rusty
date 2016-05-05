@@ -20,6 +20,7 @@ class PragmaParserTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [ '', [] ],
+            [ '  ignore ', [PragmaParser::IGNORE] ],
 
             // known directives
             [ 'ignore', [PragmaParser::IGNORE] ],
@@ -31,6 +32,7 @@ class PragmaParserTest extends \PHPUnit_Framework_TestCase
 
             // it makes no sense (for the moment), but several directives can be recognized
             [ 'no_run should_throw', [PragmaParser::NO_RUN, PragmaParser::SHOULD_THROW] ],
+            [ ' ignore  no_run ', [PragmaParser::IGNORE, PragmaParser::NO_RUN] ],
         ];
     }
 }

@@ -2,6 +2,19 @@
 
 namespace Rusty;
 
+/**
+ * Parses "pragma" directives found in code samples.
+ *
+ * Examples:
+ *
+ * ```no_run
+ * $parser = new PragmaParser();
+ * $parser->getPragmaDirectives('# ignore');
+ * $parser->getPragmaDirectives('ignore');
+ * $parser->getPragmaDirectives('no_run should_throw'); // does not make sense but works
+ * $parser->getPragmaDirectives('unknown_directive');
+ * ```
+ */
 class PragmaParser
 {
     const IGNORE = 'ignore';
@@ -14,14 +27,11 @@ class PragmaParser
         self::SHOULD_THROW,
     ];
 
-    public function getPragmaDirectives(string $code)
+    public function getPragmaDirectives(string $code): array
     {
         $firstLine = strtok($code, "\n");
+        $directives = array_filter(array_map('trim', explode(' ', $firstLine)));
 
-        $directives = array_filter(explode(' ', $firstLine), function($directive) {
-            return in_array($directive, self::KNOWN_DIRECTIVES, true);
-        });
-
-        return $directives;
+        return array_values(array_intersect(self::KNOWN_DIRECTIVES, $directives));
     }
 }
