@@ -4,17 +4,20 @@ sudo: false
 
 php:
     - 7.0
-    - hhvm
+    - hhvm-nightly
 
 matrix:
     fast_finish: true
+
+before_script:
+    - if [ "$TRAVIS_PHP_VERSION" == "hhvm" ]; then echo 'hhvm.php7.scalar_types=1' >> /etc/hhvm/php.ini; fi
 
 before_install:
     - phpenv config-rm xdebug.ini || true
     - composer self-update
 
 install:
-    - composer install -o
+    - composer install --optimize-autoloader --no-interaction --ignore-platform-reqs
 
 script:
     - make tests
