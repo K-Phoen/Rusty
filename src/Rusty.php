@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Rusty;
 
-use League\CommonMark\Inline\Element\Code;
 use Rusty\Executor;
 use Rusty\Extractor;
 use Rusty\Lint;
