@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rusty\Console\Command;
 
 use Rusty\Reports\ConsoleReporter;

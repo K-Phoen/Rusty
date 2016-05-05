@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rusty\Executor;
 
 use Symfony\Component\Process\Process;
@@ -17,7 +19,7 @@ class ExternalProcess implements Executor
         $this->compiler = new CodeSampleCompiler();
     }
 
-    public function execute(CodeSample $sample, ExecutionContext $context): string
+    public function execute(CodeSample $sample, ExecutionContext $context): Result
     {
         $code = $this->compiler->compile($sample, $context);
 
@@ -29,10 +31,6 @@ class ExternalProcess implements Executor
 
         unlink($tmpFile);
 
-        if (!$process->isSuccessful()) {
-            throw Exception\ExecutionError::inCodeSample($sample, $process->getErrorOutput());
-        }
-
-        return $process->getOutput();
+        return new Result($process->isSuccessful(), $process->getOutput(), $process->getErrorOutput());
     }
 }

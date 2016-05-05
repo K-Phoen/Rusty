@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Rusty\Reports;
 
@@ -29,9 +30,15 @@ class ConsoleReporter implements Reporter
             $this->output->writeln(' <comment>⚐</comment> Skipped code sample', OutputInterface::VERBOSITY_VERBOSE);
         } else if ($report instanceof CodeSampleLinted) {
             $this->output->writeln(' <info>✔</info> Linted code sample', OutputInterface::VERBOSITY_VERBOSE);
-        } else if ($report instanceof CodeSampleExecuted) {
+        } else if ($report instanceof SuccessfulExecution) {
             $this->output->writeln(' <info>✔</info> Executed code sample', OutputInterface::VERBOSITY_VERBOSE);
-        } else if ($report instanceof CodeSampleCheckFailed) {
+        } else if ($report instanceof ExecutionFailedAsExpected) {
+            $this->output->writeln(' <info>✔</info> Executed code sample failed as expected', OutputInterface::VERBOSITY_VERBOSE);
+            $this->output->writeln($report->getResult()->getErrorOutput(), OutputInterface::VERBOSITY_VERY_VERBOSE);
+        } else if ($report instanceof ExecutionShouldHaveFailed) {
+            $this->output->writeln(' <error>✘</error> Executed code sample was expected to fail but did not', OutputInterface::VERBOSITY_VERBOSE);
+            $this->output->writeln($report->getResult()->getOutput(), OutputInterface::VERBOSITY_VERY_VERBOSE);
+        } else if ($report instanceof ExecutionFailure) {
             $sample = $report->getSample();
 
             $this->output->writeln(sprintf(' <error>✘</error> Got an error while executing code sample found in %s:%s:', $sample->getFile()->getPathname(), $sample->getLine()), OutputInterface::VERBOSITY_NORMAL);

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Rusty\Reports;
 
-interface Reporter
+class SuccessfulExecution extends ExecutionReport
 {
-    function report(Report $report);
 }

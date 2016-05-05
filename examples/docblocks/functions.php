@@ -68,3 +68,13 @@ function throws_an_exception_during_execution()
 {
     return 42;
 }
+
+/**
+ * ```ignore should_throw
+ * echo "foo !";
+ * ```
+ */
+function says_it_will_throw_but_does_not()
+{
+    return 42;
+}

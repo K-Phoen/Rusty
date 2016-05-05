@@ -71,7 +71,6 @@ class Rusty
                 $this->checkSample($sample, $context);
             } catch (\Exception $e) {
                 $success = false;
-                $this->reporter->report(new Reports\CodeSampleCheckFailed($sample, $e));
 
                 if ($context->shouldStopOnError()) {
                     throw $e;
@@ -95,8 +94,22 @@ class Rusty
         }
 
         if (!$context->isExecutionDisabled() && !$sample->hasPragma(PragmaParser::NO_RUN)) {
-            $this->reporter->report(new Reports\CodeSampleExecuted($sample));
-            $this->executor->execute($sample, $context);
+            $result = $this->executor->execute($sample, $context);
+
+            if ($sample->hasPragma(PragmaParser::SHOULD_THROW) && !$result->isSuccessful()) {
+                $this->reporter->report(new Reports\ExecutionFailedAsExpected($sample, $result));
+            } else if ($sample->hasPragma(PragmaParser::SHOULD_THROW) && $result->isSuccessful()) {
+                $this->reporter->report(new Reports\ExecutionShouldHaveFailed($sample, $result));
+
+                throw Executor\Exception\ExecutionError::inCodeSample($sample, $result->getErrorOutput());
+            } else if (!$result->isSuccessful()) {
+                $error = Executor\Exception\ExecutionError::inCodeSample($sample, $result->getErrorOutput());
+                $this->reporter->report(new Reports\ExecutionFailure($sample, $result, $error));
+
+                throw $error;
+            } else {
+                $this->reporter->report(new Reports\SuccessfulExecution($sample, $result));
+            }
         }
     }
 

@@ -1,17 +1,19 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Rusty\Reports;
 
 use Rusty\CodeSample;
+use Rusty\Executor\Result;
 
-class CodeSampleCheckFailed extends CodeSampleReport
+class ExecutionFailure extends ExecutionReport
 {
     private $exception;
 
-    public function __construct(CodeSample $sample, \Exception $exception)
+    public function __construct(CodeSample $sample, Result $result, \Exception $exception)
     {
-        parent::__construct($sample);
+        parent::__construct($sample, $result);
 
         $this->exception = $exception;
     }
