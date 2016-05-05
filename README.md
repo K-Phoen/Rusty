@@ -1,4 +1,4 @@
-Rusty [![Build Status](https://travis-ci.org/K-Phoen/Rusty.svg?branch=master)](https://travis-ci.org/K-Phoen/Rusty)
+Rusty [![Build Status](https://travis-ci.org/K-Phoen/Rusty.svg?branch=master)](https://travis-ci.org/K-Phoen/Rusty) ![PHP7 ready](https://img.shields.io/badge/PHP7-ready-green.svg)
 =====
 
 The primary way of documenting a Rust project is through annotating the source
