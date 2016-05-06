@@ -7,7 +7,7 @@ namespace Rusty;
  *
  * Examples:
  *
- * ```no_run
+ * ```
  * $parser = new PragmaParser();
  * $parser->getPragmaDirectives('# ignore');
  * $parser->getPragmaDirectives('ignore');

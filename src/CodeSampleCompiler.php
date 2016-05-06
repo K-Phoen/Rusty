@@ -22,21 +22,24 @@ class CodeSampleCompiler
 
     public function compile(CodeSample $sample, ExecutionContext $context): string
     {
+        $compiledCode = '<?php';
+
+        // require bootstrap files
+        foreach ($context->getBootstrapFiles() as $file) {
+            $compiledCode .= PHP_EOL . sprintf('require_once "%s";', $file);
+        }
+
+        // require the sample file itself
+        $compiledCode .= PHP_EOL . sprintf('require_once "%s";', $sample->getFile()->getRealPath());
+
+        // compile the sample
         $traverser = new NodeTraverser();
         $traverser->addVisitor(new AsserterTransformerVisitor());
 
         $nodes = $this->parser->parse('<?php ' . $sample->getCode());
         $rewrittenNodes = $traverser->traverse($nodes);
-        $preparedCode = (new PrettyPrinter\Standard())->prettyPrint($rewrittenNodes);
+        $compiledCode .= PHP_EOL . (new PrettyPrinter\Standard())->prettyPrint($rewrittenNodes);
 
-        $prependCode = '';
-
-        foreach ($context->getBootstrapFiles() as $file) {
-            $prependCode .= sprintf('require_once "%s";', $file) . PHP_EOL;
-        }
-
-        $prependCode .= sprintf('require_once "%s";', $sample->getFile()->getRealPath()) . PHP_EOL;
-
-        return '<?php' . PHP_EOL . $prependCode . $preparedCode;
+        return $compiledCode;
     }
 }

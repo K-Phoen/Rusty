@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace Rusty\Extractor;
 
 use PhpParser\Node;
+use PhpParser\NodeTraverser;
 use PhpParser\ParserFactory;
+use PhpParser\PrettyPrinter;
 
 use Rusty\CodeSample;
+use Rusty\PhpParser\ContextCollectorResolver;
+use Rusty\PhpParser\NameResolver;
 use Rusty\PhpParser\NodeCollector;
 use Rusty\PragmaParser;
 
@@ -30,7 +34,9 @@ class PhpDoc implements SampleExtractor
 
     public function extractSamples(\SplFileInfo $file): \Traversable
     {
-        $nodes = $this->parser->parse(file_get_contents($file->getPathname()));
+        $ast = $this->getAst(file_get_contents($file->getPathname()));
+        list($namespace, $aliases) = $this->collectNamespaceContext($ast);
+
         $collectors = [
             new NodeCollector(Node\Stmt\Function_::class),
             new NodeCollector(Node\Stmt\Class_::class),
@@ -40,7 +46,7 @@ class PhpDoc implements SampleExtractor
         /** @var NodeCollector $collector */
         foreach ($collectors as $collector) {
             /** @var Node $node */
-            foreach ($collector->collect($nodes) as $node) {
+            foreach ($collector->collect($ast) as $node) {
                 $comment = $node->getDocComment();
 
                 if (!$comment) {
@@ -48,12 +54,40 @@ class PhpDoc implements SampleExtractor
                 }
 
                 foreach ($this->extractFromDocBlock($comment->getText()) as $data) {
+                    $astSample = $this->getAst('<?php' . PHP_EOL . $data['code']);
                     $pragmaDirectives = $this->pragmaParser->getPragmaDirectives($data['pragma']);
 
-                    yield new CodeSample($file, $comment->getLine(), $data['code'], $pragmaDirectives);
+                    $rewrittenAst = $this->resolveNames($astSample, $namespace, $aliases);
+                    $rewrittenCode = (new PrettyPrinter\Standard())->prettyPrint($rewrittenAst);
+
+                    yield new CodeSample($file, $comment->getLine(), $rewrittenCode, $pragmaDirectives);
                 }
             }
         }
+    }
+
+    private function getAst(string $code)
+    {
+        return $this->parser->parse($code);
+    }
+
+    private function collectNamespaceContext($ast): array
+    {
+        $contextCollector = new ContextCollectorResolver();
+
+        $traverser = new NodeTraverser();
+        $traverser->addVisitor($contextCollector);
+        $traverser->traverse($ast);
+
+        return [$contextCollector->getNamespace(), $contextCollector->getAliases()];
+    }
+
+    private function resolveNames($ast, $namespace, array $aliases)
+    {
+        $traverser = new NodeTraverser();
+        $traverser->addVisitor(new NameResolver($namespace, $aliases));
+
+        return $traverser->traverse($ast);
     }
 
     private function extractFromDocBlock(string $docBlock): \Generator
