@@ -3,16 +3,12 @@
 namespace Rusty\PhpParser;
 
 use PhpParser\NodeVisitorAbstract;
-use PhpParser\Error;
 use PhpParser\Node;
-use PhpParser\Node\Name;
-use PhpParser\Node\Name\FullyQualified;
-use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt;
 
 class ContextCollectorResolver extends NodeVisitorAbstract
 {
-    /** @var null|Name Current namespace */
+    /** @var null|Node\Name Current namespace */
     private $namespace;
 
     /** @var array Map of format [aliasType => [aliasName => originalName]] */
@@ -43,10 +39,10 @@ class ContextCollectorResolver extends NodeVisitorAbstract
         return $this->namespace;
     }
 
-    private function addAlias(Stmt\UseUse $use, $type, Name $prefix = null)
+    private function addAlias(Stmt\UseUse $use, $type, Node\Name $prefix = null)
     {
         // Add prefix for group uses
-        $name = $prefix ? Name::concat($prefix, $use->name) : $use->name;
+        $name = $prefix ? Node\Name::concat($prefix, $use->name) : $use->name;
         // Type is determined either by individual element or whole use declaration
         $type |= $use->type;
 
@@ -64,7 +60,7 @@ class ContextCollectorResolver extends NodeVisitorAbstract
                 Stmt\Use_::TYPE_CONSTANT => 'const ',
             );
 
-            throw new Error(
+            throw new \PhpParser\Error(
                 sprintf(
                     'Cannot use %s%s as %s because the name is already in use',
                     $typeStringMap[$type], $name, $use->alias
