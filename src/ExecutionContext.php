@@ -8,6 +8,35 @@ use Symfony\Component\Process\PhpExecutableFinder;
 
 use Rusty\Finder\FilesFinder;
 
+/**
+ * Stores all the runtime execution context.
+ *
+ * Examples:
+ *
+ * ```
+ * $context = new ExecutionContext('./some/file.php');
+ * $context = new ExecutionContext('./some/directory/');
+ * ```
+ *
+ * Bootstrap files can be specified:
+ * ```
+ * $context = new ExecutionContext('./some/file.php', [
+ *   './some/bootstrap/file.php',
+ * ]);
+ * ```
+ *
+ * The search can be restricted to some extensions:
+ * ```
+ * $context = new ExecutionContext('./some/directory/', [], ['php']);
+ * ```
+ *
+ * Some options define what will be checked:
+ * ```
+ * $context = new ExecutionContext('./some/directory/');
+ * $context->disableLint();
+ * $context->stopOnError();
+ * ```
+ */
 class ExecutionContext
 {
     private $target;
