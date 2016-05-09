@@ -1,80 +1,31 @@
 <?php
 
 /**
- * Returns 42.
+ * Computes the n-th Fibonacci's number.
  *
  * Examples:
  *
  * ```
- * assert(has_docblock_and_a_single_sample() === 42);
+ * assert(fibonacci(1) === 1);
+ * assert(fibonacci(2) === 1);
+ * assert(fibonacci(12) === 144);
  * ```
- */
-function has_docblock_and_a_single_sample()
-{
-    return 42;
-}
-
-/**
- * Returns 42.
  *
- * Examples:
- *
- * ```
- * assert(has_docblock_and_samples() === 42);
+ * ```should_throw
+ * // -1 is invalid, some kind of error is expected
+ * fibonacci(-1);
  * ```
  *
  * ```no_run
- * assert(has_docblock_and_samples() === 44);
- * ```
- *
- * ```ignore
- * assert(has_docblock_and_samples() === 42 && && fatal())
+ * // it would take too much time to compute, we don't want to wait that long.
+ * fibonacci(10000);
  * ```
  */
-function has_docblock_and_samples()
+function fibonacci($n)
 {
-    return 42;
-}
+    if ($n < 0) {
+        throw new \DomainException();
+    }
 
-function has_no_docblock()
-{
-    return 42;
-}
-
-/**
- * @return int
- */
-function has_docblock_but_no_sample()
-{
-    return 42;
-}
-
-/**
- * ```ignore
- * has_syntax_error_in_sample(...)
- * ```
- */
-function has_syntax_error_in_sample()
-{
-    return 42;
-}
-
-/**
- * ```should_throw
- * throw new \RuntimeException('Expected exception!');
- * ```
- */
-function throws_an_exception_during_execution()
-{
-    return 42;
-}
-
-/**
- * ```ignore should_throw
- * echo "foo !";
- * ```
- */
-function says_it_will_throw_but_does_not()
-{
-    return 42;
+    return $n <= 2 ? 1 : fibonacci($n - 1) + fibonacci($n - 2);
 }

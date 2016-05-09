@@ -106,8 +106,10 @@ class PhpDoc implements SampleExtractor
 
     private function stripCommentStructure(string $docBlock): string
     {
-        return trim(implode("\n", array_map(function($line) {
-            return ltrim($line, ' */');
-        }, explode("\n", $docBlock))));
+        $docBlock = preg_replace('`^\s*/\*\*\s*$`mu', '', $docBlock);
+        $docBlock = preg_replace('`^\s*\*(.*)$`mu', '$1', $docBlock);
+        $docBlock = preg_replace('`^\s*\*/\s*$`mu', '', $docBlock);
+
+        return $docBlock;
     }
 }
