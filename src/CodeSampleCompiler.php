@@ -24,7 +24,10 @@ class CodeSampleCompiler
     {
         $compiledCode = '<?php';
 
-        // require bootstrap files
+        // require our bootstrap file
+        $compiledCode .= PHP_EOL . sprintf('require_once "%s";', __DIR__ . '/Runtime/bootstrap.php');
+
+        // require user's bootstrap files
         foreach ($context->getBootstrapFiles() as $file) {
             $compiledCode .= PHP_EOL . sprintf('require_once "%s";', $file);
         }
