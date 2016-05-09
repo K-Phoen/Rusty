@@ -14,6 +14,16 @@ Usage
 Rusty is able to **extract code samples from** both **PHP doc-blocks** and
 **Markdown files** (your documentation for instance).
 
+### Running the tests
+
+An executable is provided to analyse the code samples scattered in your documentation and in your doc-blocks:
+
+```
+rusty check -v ./src/
+```
+
+### Writing documentation as tests
+
 A code sample usually looks like this:
 
 ```php
@@ -50,10 +60,6 @@ function fibonacci($n)
 
 More examples can be found in the [`./examples`](https://github.com/K-Phoen/Rusty/tree/master/examples/)
 directory.
-
-```
-rusty check -v ./src/
-```
 
 Use `rusty help check` for a list of all the possible options.
 
