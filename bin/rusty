@@ -1,7 +1,16 @@
 #!/usr/bin/env php
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
+$possibleLocations = [
+    __DIR__ . '/../vendor/autoload.php', // when installed as "classic" dependency
+    __DIR__ . '/../../../autoload.php', // when installed globally
+];
+
+foreach ($possibleLocations as $candidate) {
+    if (file_exists($candidate)) {
+        require_once $candidate;
+    }
+}
 
 use Rusty\Console\Application;
 
