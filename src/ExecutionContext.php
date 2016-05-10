@@ -14,41 +14,41 @@ use Rusty\Finder\FilesFinder;
  * Examples:
  *
  * ```
- * $context = new ExecutionContext('./some/file.php');
- * $context = new ExecutionContext('./some/directory/');
+ * $context = new ExecutionContext(['./some/file.php', './other/file.php']);
+ * $context = new ExecutionContext(['./some/directory/']);
  * ```
  *
  * Bootstrap files can be specified:
  * ```
- * $context = new ExecutionContext('./some/file.php', [
+ * $context = new ExecutionContext(['./some/file.php'], [
  *   './some/bootstrap/file.php',
  * ]);
  * ```
  *
  * The search can be restricted to some extensions:
  * ```
- * $context = new ExecutionContext('./some/directory/', [], ['php']);
+ * $context = new ExecutionContext(['./some/directory/'], [], ['php']);
  * ```
  *
  * Some options define what will be checked:
  * ```
- * $context = new ExecutionContext('./some/directory/');
+ * $context = new ExecutionContext(['./some/directory/']);
  * $context->disableLint();
  * $context->stopOnError();
  * ```
  */
 class ExecutionContext
 {
-    private $target;
+    private $targets;
     private $disableLint = false;
     private $disableExecute = false;
     private $stopOnError = false;
     private $bootstrapFiles = [];
     private $allowedExtensions = [];
 
-    public function __construct(string $target, array $bootstrapFiles = [], array $allowedExtensions = [])
+    public function __construct(array $targets, array $bootstrapFiles = [], array $allowedExtensions = [])
     {
-        $this->target = $target;
+        $this->targets = $targets;
         $this->bootstrapFiles = $bootstrapFiles;
         $this->allowedExtensions = $allowedExtensions;
     }
@@ -67,11 +67,6 @@ class ExecutionContext
     public function getBootstrapFiles(): array
     {
         return $this->bootstrapFiles;
-    }
-
-    public function getTarget(): string
-    {
-        return $this->target;
     }
 
     public function isLinterDisabled(): bool
@@ -119,20 +114,26 @@ class ExecutionContext
         $this->stopOnError = false;
     }
 
-    public function getFinder(): \Traversable
+    public function getTargets(): \Traversable
     {
-        if (is_file($this->getTarget())) {
-            return new \ArrayIterator([
-                new \SplFileInfo($this->getTarget())
-            ]);
+        foreach ($this->targets as $target) {
+            if (is_file($target)) {
+                $fileInfo = new \SplFileInfo($target);
+
+                if ($this->allowedExtensions && !in_array($fileInfo->getExtension(), $this->allowedExtensions, true)) {
+                    continue;
+                }
+
+                yield from new \ArrayIterator([$fileInfo]);
+            } else {
+                $finder = FilesFinder::create()->in($target);
+
+                foreach ($this->allowedExtensions as $extension) {
+                    $finder->name('*.'.$extension);
+                }
+
+                yield from $finder;
+            }
         }
-
-        $finder = FilesFinder::create()->in($this->getTarget());
-
-        foreach ($this->allowedExtensions as $extension) {
-            $finder->name('*.'.$extension);
-        }
-
-        return $finder;
     }
 }

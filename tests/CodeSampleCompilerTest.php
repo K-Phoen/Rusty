@@ -21,13 +21,13 @@ CODE;
 
         $compiler = new CodeSampleCompiler();
 
-        $this->assertSame($expectedCode, $compiler->compile($sample, new ExecutionContext('./target-dir/')));
+        $this->assertSame($expectedCode, $compiler->compile($sample, new ExecutionContext(['./target-dir/'])));
     }
 
     public function testItAllowsBootstrapFilesToBePrepended()
     {
         $sample = new CodeSample($this->getFileMock(), 42, 'new Foo();');
-        $context = new ExecutionContext('./target-dir/', ['/some/bootstrap.php', '/other/bootstrap.php']);
+        $context = new ExecutionContext(['./target-dir/'], ['/some/bootstrap.php', '/other/bootstrap.php']);
         $runtimeNSDir = $this->getRuntimeNSDir();
         $expectedCode = <<<CODE
 <?php

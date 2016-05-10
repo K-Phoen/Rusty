@@ -22,7 +22,7 @@ class Check extends Command
         $this
             ->setName('check')
             ->setDefinition([
-                new InputArgument('target', InputArgument::REQUIRED, 'The target to check.'),
+                new InputArgument('target', InputArgument::IS_ARRAY | InputArgument::REQUIRED, 'The targets to check.'),
                 new InputOption('no-lint', '', InputOption::VALUE_NONE, 'Do not lint any of the code samples.'),
                 new InputOption('no-execute', '', InputOption::VALUE_NONE, 'Do not execute any of the code samples.'),
                 new InputOption('stop-on-error', '', InputOption::VALUE_NONE, 'Stop the execution if an error happens.'),
@@ -43,10 +43,10 @@ class Check extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $target = $input->getArgument('target');
+        $targets = $input->getArgument('target');
         $bootstrapFiles = $input->getOption('bootstrap-file');
         $allowedExtension = $input->getOption('allow-extension');
-        $executionContext = new ExecutionContext($target, $bootstrapFiles, $allowedExtension);
+        $executionContext = new ExecutionContext($targets, $bootstrapFiles, $allowedExtension);
 
         if ($input->getOption('no-lint')) {
             $executionContext->disableLint();

@@ -45,7 +45,7 @@ class Rusty
     {
         $success = true;
 
-        foreach ($context->getFinder() as $file) {
+        foreach ($context->getTargets() as $file) {
             $success = $success && $this->checkFile($file, $context);
         }
 

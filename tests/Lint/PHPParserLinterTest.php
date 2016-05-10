@@ -18,7 +18,7 @@ class PHPParserLinterTest extends \PHPUnit_Framework_TestCase
         $sample = new CodeSample($splFileInfoMock, 42, $code);
         $linter = new PHPParserLinter();
 
-        $this->assertTrue($linter->lint($sample, new ExecutionContext('./some-target-dir/')));
+        $this->assertTrue($linter->lint($sample, new ExecutionContext(['./some-target-dir/'])));
     }
 
     public function validInputProvider()
@@ -39,7 +39,7 @@ class PHPParserLinterTest extends \PHPUnit_Framework_TestCase
         $sample = new CodeSample($splFileInfoMock, 42, $code);
         $linter = new PHPParserLinter();
 
-        $linter->lint($sample, new ExecutionContext('./some-target-dir/'));
+        $linter->lint($sample, new ExecutionContext(['./some-target-dir/']));
     }
 
     public function invalidInputProvider()
