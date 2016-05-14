@@ -14,6 +14,7 @@ class FilesFinder extends Finder
 
         $this
             ->files()
+            ->followLinks()
             ->exclude('vendor')
         ;
     }
