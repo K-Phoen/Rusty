@@ -22,6 +22,8 @@ class PragmaParserTest extends \PHPUnit_Framework_TestCase
             [ '', [] ],
             [ '  ignore ', [PragmaParser::IGNORE] ],
 
+            [ '#ignore ', [PragmaParser::IGNORE] ],
+
             // known directives
             [ 'ignore', [PragmaParser::IGNORE] ],
             [ 'no_run', [PragmaParser::NO_RUN] ],

@@ -30,7 +30,8 @@ class PragmaParser
     public function getPragmaDirectives(string $code): array
     {
         $firstLine = strtok($code, "\n");
-        $directives = array_filter(array_map('trim', explode(' ', $firstLine)));
+        $cleanedFirstLine = ltrim($firstLine, '#');
+        $directives = array_filter(array_map('trim', explode(' ', $cleanedFirstLine)));
 
         return array_values(array_intersect(self::KNOWN_DIRECTIVES, $directives));
     }
