@@ -46,7 +46,7 @@ class Rusty
         $success = true;
 
         foreach ($context->getTargets() as $file) {
-            $success = $success && $this->checkFile($file, $context);
+            $success = $this->checkFile($file, $context) && $success;
         }
 
         return $success;
