@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rusty\Extractor;
 
 use League\CommonMark\Block\Element\AbstractBlock;
+use League\CommonMark\Block\Element\FencedCode;
 use League\CommonMark\DocParser;
 use League\CommonMark\Environment;
 use Rusty\CodeSample;
@@ -39,6 +40,15 @@ class Markdown implements SampleExtractor
 
             if (!$node instanceof AbstractBlock || !$node->isCode()) {
                 continue;
+            }
+
+            if ($node instanceof FencedCode) {
+                $infoWords = array_map('strtolower', array_filter(array_map('trim', $node->getInfoWords())));
+
+                // filter code blocks that are not explicitly declared as PHP
+                if (!$infoWords || !in_array('php', $infoWords, true)) {
+                    continue;
+                }
             }
 
             /** @var AbstractBlock $node */
