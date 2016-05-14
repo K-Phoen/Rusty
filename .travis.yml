@@ -17,3 +17,4 @@ install:
 
 script:
     - make tests
+    - make rusty
