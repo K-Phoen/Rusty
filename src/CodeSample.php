@@ -15,7 +15,7 @@ class CodeSample
     {
         $this->file = $file;
         $this->line = $line;
-        $this->code = strpos($code, '<?php') === 0 ? substr($code, 5) : $code;
+        $this->code = trim(strpos($code, '<?php') === 0 ? substr($code, 5) : $code);
         $this->pragmaDirectives = $pragmaDirectives;
     }
 

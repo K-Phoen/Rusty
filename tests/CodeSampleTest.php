@@ -23,4 +23,15 @@ class CodeSampleTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($sample->hasPragma('some directive'));
         $this->assertFalse($sample->hasPragma('other directive'));
     }
+
+    public function testItStripsPHPStartingTagFromCode()
+    {
+        /** @var \SplFileInfo $splFileInfoMock */
+        $splFileInfoMock = $this->getMockBuilder('SplFileInfo')->disableOriginalConstructor()->getMock();
+        $code = "<?php\necho 'Hello world!';";
+
+        $sample = new CodeSample($splFileInfoMock, 42, $code, []);
+
+        $this->assertEquals("echo 'Hello world!';", $sample->getCode());
+    }
 }

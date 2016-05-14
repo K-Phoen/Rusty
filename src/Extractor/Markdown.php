@@ -54,7 +54,7 @@ class Markdown implements SampleExtractor
         }
     }
 
-    private function buildCodeSample(\SplFileInfo $file, Element\AbstractBlock $node)
+    private function buildCodeSample(\SplFileInfo $file, Element\AbstractBlock $node): CodeSample
     {
         $content = $node->getStringContent();
         $pragmaDirectives = $this->pragmaParser->getPragmaDirectives($content);
