@@ -59,6 +59,6 @@ class Markdown implements SampleExtractor
         $content = $node->getStringContent();
         $pragmaDirectives = $this->pragmaParser->getPragmaDirectives($content);
 
-        yield new CodeSample($file, $node->getStartLine(), $content, $pragmaDirectives);
+        return new CodeSample($file, $node->getStartLine(), $content, $pragmaDirectives);
     }
 }
