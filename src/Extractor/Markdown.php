@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Rusty\Extractor;
 
-use League\CommonMark\Block\Element\AbstractBlock;
-use League\CommonMark\Block\Element\FencedCode;
+use League\CommonMark\Block\Element;
 use League\CommonMark\DocParser;
 use League\CommonMark\Environment;
 use Rusty\CodeSample;
@@ -38,11 +37,11 @@ class Markdown implements SampleExtractor
                 continue;
             }
 
-            if (!$node instanceof AbstractBlock || !$node->isCode()) {
+            if (!$node instanceof Element\AbstractBlock || !$node->isCode()) {
                 continue;
             }
 
-            if ($node instanceof FencedCode) {
+            if ($node instanceof Element\FencedCode) {
                 $infoWords = array_map('strtolower', array_filter(array_map('trim', $node->getInfoWords())));
 
                 // filter code blocks that are not explicitly declared as PHP
@@ -51,12 +50,15 @@ class Markdown implements SampleExtractor
                 }
             }
 
-            /** @var AbstractBlock $node */
-
-            $content = $node->getStringContent();
-            $pragmaDirectives = $this->pragmaParser->getPragmaDirectives($content);
-
-            yield new CodeSample($file, $node->getStartLine(), $content, $pragmaDirectives);
+            yield $this->buildCodeSample($file, $node);
         }
+    }
+
+    private function buildCodeSample(\SplFileInfo $file, Element\AbstractBlock $node)
+    {
+        $content = $node->getStringContent();
+        $pragmaDirectives = $this->pragmaParser->getPragmaDirectives($content);
+
+        yield new CodeSample($file, $node->getStartLine(), $content, $pragmaDirectives);
     }
 }
