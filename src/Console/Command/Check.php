@@ -37,7 +37,8 @@ class Check extends Command
     {
         return array_merge(
             Extractor\Markdown::supportedExtensions(),
-            Extractor\PhpDoc::supportedExtensions()
+            Extractor\PhpDoc::supportedExtensions(),
+            Extractor\Rst::supportedExtensions()
         );
     }
 

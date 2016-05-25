@@ -32,6 +32,7 @@ class Rusty
 
         $this->registerExtractor(new Extractor\PhpDoc());
         $this->registerExtractor(new Extractor\Markdown());
+        $this->registerExtractor(new Extractor\Rst());
     }
 
     public function registerExtractor(Extractor\SampleExtractor $extractor)
