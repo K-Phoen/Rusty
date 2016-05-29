@@ -11,6 +11,9 @@ use Rusty\Reports;
 
 class Rusty
 {
+    const VERSION = '@package_version@';
+    const RELEASE_DATE = '@release_date@';
+
     /** @var array<string,\Rusty\Extractor\SampleExtractor> */
     private $sampleExtractors;
 

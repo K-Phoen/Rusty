@@ -4,6 +4,7 @@ namespace Rusty\Console;
 
 use Symfony\Component\Console\Application as ConsoleApplication;
 
+use Rusty\Rusty;
 use Rusty\Console\Command;
 
 class Application extends ConsoleApplication
@@ -17,7 +18,7 @@ class Application extends ConsoleApplication
 
     public function __construct()
     {
-        parent::__construct('Rusty');
+        parent::__construct('Rusty', Rusty::VERSION);
 
         $this->add(new Command\Check());
     }
@@ -25,5 +26,13 @@ class Application extends ConsoleApplication
     public function getHelp()
     {
         return self::LOGO . "\n" . parent::getHelp();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLongVersion()
+    {
+        return parent::getLongVersion() . ', built ' . Rusty::RELEASE_DATE;
     }
 }

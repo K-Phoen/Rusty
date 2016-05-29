@@ -6,6 +6,8 @@
     "compactors": [
         "Herrera\\Box\\Compactor\\Php"
     ],
+    "datetime": "release_date",
+    "git-version": "package_version",
     "stub": true,
     "web": false
 }
