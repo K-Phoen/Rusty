@@ -40,14 +40,11 @@ class Rst implements SampleExtractor
 
         /** @var \Gregwar\RST\HTML\Document $document */
         $document = @$parser->parse($fileContent);
-        $nodes = $document->getNodes(function($node) {
-            return $node instanceof CodeNode;
+        $phpCodeNodes = $document->getNodes(function($node) {
+            return $node instanceof CodeNode && $node->getLanguage() === 'php';
         });
 
-        foreach ($nodes as $node) {
-            if ($node->getLanguage() != 'php') {
-                continue;
-            }
+        foreach ($phpCodeNodes as $node) {
             $content = $node->getValue();
             $pragmaDirectives = $this->pragmaParser->getPragmaDirectives($content);
             yield new CodeSample($file, 0, $content, $pragmaDirectives);
