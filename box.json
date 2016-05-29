@@ -1,0 +1,11 @@
+{
+    "directories": ["src/", "vendor/"],
+    "main": "bin/rusty",
+    "output": "rusty.phar",
+    "chmod": "0755",
+    "compactors": [
+        "Herrera\\Box\\Compactor\\Php"
+    ],
+    "stub": true,
+    "web": false
+}
