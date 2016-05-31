@@ -31,6 +31,6 @@ class ExternalProcess implements Executor
 
         unlink($tmpFile);
 
-        return new Result($process->isSuccessful(), $process->getOutput(), $process->getErrorOutput());
+        return new Result($process->isSuccessful(), (string) $process->getOutput(), (string) $process->getErrorOutput());
     }
 }
