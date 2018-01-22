@@ -2,23 +2,23 @@
 
 namespace Rusty\Tests\Reports;
 
+use PHPUnit\Framework\TestCase;
 use Rusty\CodeSample;
 use Rusty\Executor\Result;
 use Rusty\Lint\Exception\SyntaxError;
 use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Output\OutputInterface;
-
 use Rusty\Reports;
 
-class ConsoleReporterTests extends \PHPUnit_Framework_TestCase
+class ConsoleReporterTest extends TestCase
 {
     /**
      * @dataProvider reportProvider
      */
     public function testHandledReportsAreDisplayed(Reports\Report $report)
     {
-        $output = $this->getMock(OutputInterface::class);
-        $formatter = $this->getMock(FormatterHelper::class);
+        $output = $this->createMock(OutputInterface::class);
+        $formatter = $this->createMock(FormatterHelper::class);
         $reporter = new Reports\ConsoleReporter($output, $formatter);
 
         $output

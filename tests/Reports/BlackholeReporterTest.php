@@ -2,15 +2,18 @@
 
 namespace Rusty\Tests\Reports;
 
+use PHPUnit\Framework\TestCase;
 use Rusty\Reports;
 
-class BlackholeReporterTests extends \PHPUnit_Framework_TestCase
+class BlackholeReporterTest extends TestCase
 {
     public function testItDoesNothing()
     {
-        $splFile = $this->getMockBuilder(\SplFileInfo::class)->disableOriginalConstructor()->getMock();
+        $splFile = $this->createMock(\SplFileInfo::class);
         $reporter = new Reports\BlackholeReporter();
 
         $reporter->report(new Reports\AnalyseFile($splFile));
+
+        $this->assertTrue(true, 'It does nothing, so it should fail');
     }
 }

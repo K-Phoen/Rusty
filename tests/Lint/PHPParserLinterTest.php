@@ -2,11 +2,12 @@
 
 namespace Rusty\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Rusty\CodeSample;
 use Rusty\ExecutionContext;
 use Rusty\Lint\PHPParserLinter;
 
-class PHPParserLinterTest extends \PHPUnit_Framework_TestCase
+class PHPParserLinterTest extends TestCase
 {
     /**
      * @dataProvider validInputProvider
@@ -14,7 +15,7 @@ class PHPParserLinterTest extends \PHPUnit_Framework_TestCase
     public function testValidCodeThrowNoError(string $code)
     {
         /** @var \SplFileInfo $splFileInfoMock */
-        $splFileInfoMock = $this->getMockBuilder('SplFileInfo')->disableOriginalConstructor()->getMock();
+        $splFileInfoMock = $this->createMock(\SplFileInfo::class);
         $sample = new CodeSample($splFileInfoMock, 42, $code);
         $linter = new PHPParserLinter();
 
@@ -35,7 +36,7 @@ class PHPParserLinterTest extends \PHPUnit_Framework_TestCase
     public function testInvalidCodeThrowAnError(string $code)
     {
         /** @var \SplFileInfo $splFileInfoMock */
-        $splFileInfoMock = $this->getMockBuilder('SplFileInfo')->disableOriginalConstructor()->getMock();
+        $splFileInfoMock = $this->createMock(\SplFileInfo::class);
         $sample = new CodeSample($splFileInfoMock, 42, $code);
         $linter = new PHPParserLinter();
 

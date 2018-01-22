@@ -2,11 +2,12 @@
 
 namespace Rusty\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Rusty\CodeSample;
 use Rusty\CodeSampleCompiler;
 use Rusty\ExecutionContext;
 
-class CodeSampleCompilerTest extends \PHPUnit_Framework_TestCase
+class CodeSampleCompilerTest extends TestCase
 {
     public function testItTransformsAssertCalls()
     {
@@ -45,11 +46,10 @@ CODE;
 
     private function getFileMock(string $realPath = '/dir/file.php'): \SplFileInfo
     {
-        $file = $this->getMockBuilder('SplFileInfo')->disableOriginalConstructor()->getMock();
+        $file = $this->createMock(\SplFileInfo::class);
         $file
-            ->expects($this->any())
             ->method('getRealPath')
-            ->will($this->returnValue($realPath));
+            ->willReturn($realPath);
 
         return $file;
     }

@@ -2,9 +2,10 @@
 
 namespace Rusty\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Rusty\PragmaParser;
 
-class PragmaParserTest extends \PHPUnit_Framework_TestCase
+class PragmaParserTest extends TestCase
 {
     /**
      * @dataProvider inputProvider

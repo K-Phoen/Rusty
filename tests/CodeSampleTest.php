@@ -2,14 +2,15 @@
 
 namespace Rusty\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Rusty\CodeSample;
 
-class CodeSampleTest extends \PHPUnit_Framework_TestCase
+class CodeSampleTest extends TestCase
 {
     public function testItBehavesLikeAContainer()
     {
         /** @var \SplFileInfo $splFileInfoMock */
-        $splFileInfoMock = $this->getMockBuilder('SplFileInfo')->disableOriginalConstructor()->getMock();
+        $splFileInfoMock = $this->createMock(\SplFileInfo::class);
         $code = 'some code sample';
         $line = 42;
         $pragmaDirectives = ['some directive'];
@@ -27,7 +28,7 @@ class CodeSampleTest extends \PHPUnit_Framework_TestCase
     public function testItStripsPHPStartingTagFromCode()
     {
         /** @var \SplFileInfo $splFileInfoMock */
-        $splFileInfoMock = $this->getMockBuilder('SplFileInfo')->disableOriginalConstructor()->getMock();
+        $splFileInfoMock = $this->createMock(\SplFileInfo::class);
         $code = "<?php\necho 'Hello world!';";
 
         $sample = new CodeSample($splFileInfoMock, 42, $code, []);

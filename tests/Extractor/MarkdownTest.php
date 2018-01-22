@@ -4,10 +4,11 @@ namespace Rusty\Tests\Extractor;
 
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
+use PHPUnit\Framework\TestCase;
 use Rusty\CodeSample;
 use Rusty\Extractor;
 
-class MarkdownTest extends \PHPUnit_Framework_TestCase
+class MarkdownTest extends TestCase
 {
     /**
      * @var  vfsStreamDirectory
@@ -62,13 +63,10 @@ class MarkdownTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    private function getFileMock($path)
+    private function getFileMock($path): \SplFileInfo
     {
-        $file = $this->getMockBuilder(\SplFileInfo::class)->disableOriginalConstructor()->getMock();
-        $file
-            ->expects($this->once())
-            ->method('getRealPath')
-            ->will($this->returnValue($path));
+        $file = $this->createMock(\SplFileInfo::class);
+        $file->method('getRealPath')->willReturn($path);
 
         return $file;
     }
