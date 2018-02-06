@@ -33,7 +33,9 @@ class CodeSampleCompiler
         }
 
         // require the sample file itself
-        $compiledCode .= PHP_EOL . sprintf('require_once "%s";', $sample->getFile()->getRealPath());
+        if ($sample->getFile()->getExtension() === 'php') {
+            $compiledCode .= PHP_EOL . sprintf('require_once "%s";', $sample->getFile()->getRealPath());
+        }
 
         // compile the sample
         $traverser = new NodeTraverser();

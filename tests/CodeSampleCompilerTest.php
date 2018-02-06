@@ -47,9 +47,8 @@ CODE;
     private function getFileMock(string $realPath = '/dir/file.php'): \SplFileInfo
     {
         $file = $this->createMock(\SplFileInfo::class);
-        $file
-            ->method('getRealPath')
-            ->willReturn($realPath);
+        $file->method('getRealPath')->willReturn($realPath);
+        $file->method('getExtension')->willReturn(pathinfo($realPath, PATHINFO_EXTENSION));
 
         return $file;
     }

@@ -26,10 +26,12 @@ class ExternalProcess implements Executor
         $tmpFile = tempnam(sys_get_temp_dir(), 'rusty_');
         file_put_contents($tmpFile, $code);
 
-        $process = new Process(sprintf('%s %s', $context->getPhpExecutable(), $tmpFile));
-        $process->run();
-
-        unlink($tmpFile);
+        try {
+            $process = new Process(sprintf('%s %s', $context->getPhpExecutable(), $tmpFile));
+            $process->run();
+        } finally {
+            unlink($tmpFile);
+        }
 
         return new Result($process->isSuccessful(), (string) $process->getOutput(), (string) $process->getErrorOutput());
     }
