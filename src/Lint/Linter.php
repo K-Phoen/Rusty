@@ -16,5 +16,5 @@ interface Linter
      *
      * @return bool True if the code sample has a valid syntax.
      */
-    function lint(CodeSample $sample, ExecutionContext $context): bool;
+    public function lint(CodeSample $sample, ExecutionContext $context): bool;
 }

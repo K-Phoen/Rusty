@@ -25,10 +25,11 @@ class PHPParserLinterTest extends TestCase
     public function validInputProvider()
     {
         return [
-            [ 'foo();' ],
-            [ 'foo() && bar("lala");' ],
+            ['foo();'],
+            ['foo() && bar("lala");'],
         ];
     }
+
     /**
      * @dataProvider invalidInputProvider
      * @expectedException \Rusty\Lint\Exception\SyntaxError
@@ -46,8 +47,8 @@ class PHPParserLinterTest extends TestCase
     public function invalidInputProvider()
     {
         return [
-            [ 'foo()' ],
-            [ 'foo() && && bar("lala");' ],
+            ['foo()'],
+            ['foo() && && bar("lala");'],
         ];
     }
 }

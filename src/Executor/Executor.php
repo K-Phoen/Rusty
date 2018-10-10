@@ -7,5 +7,5 @@ use Rusty\ExecutionContext;
 
 interface Executor
 {
-    function execute(CodeSample $sample, ExecutionContext $context): Result;
+    public function execute(CodeSample $sample, ExecutionContext $context): Result;
 }

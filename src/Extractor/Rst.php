@@ -7,7 +7,6 @@ namespace Rusty\Extractor;
 use Gregwar\RST\ErrorManager;
 use Gregwar\RST\HTML\Nodes\CodeNode;
 use Gregwar\RST\Parser;
-use League\CommonMark\Block\Element;
 use Rusty\CodeSample;
 use Rusty\PragmaParser;
 
@@ -32,7 +31,6 @@ class Rst implements SampleExtractor
         $parser->getEnvironment()->setErrorManager(new class() extends ErrorManager {
             public function error($message)
             {
-
             }
         });
 
@@ -40,7 +38,7 @@ class Rst implements SampleExtractor
 
         /** @var \Gregwar\RST\HTML\Document $document */
         $document = @$parser->parse($fileContent);
-        $phpCodeNodes = $document->getNodes(function($node) {
+        $phpCodeNodes = $document->getNodes(function ($node) {
             return $node instanceof CodeNode && $node->getLanguage() === 'php';
         });
 

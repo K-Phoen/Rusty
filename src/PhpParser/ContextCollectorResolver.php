@@ -55,7 +55,7 @@ class ContextCollectorResolver extends NodeVisitorAbstract
 
         if (isset($this->aliases[$type][$aliasName])) {
             $typeStringMap = array(
-                Stmt\Use_::TYPE_NORMAL   => '',
+                Stmt\Use_::TYPE_NORMAL => '',
                 Stmt\Use_::TYPE_FUNCTION => 'function ',
                 Stmt\Use_::TYPE_CONSTANT => 'const ',
             );

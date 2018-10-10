@@ -6,6 +6,7 @@ namespace Rusty\Extractor;
 
 interface SampleExtractor
 {
-    static function supportedExtensions(): array;
-    function extractSamples(\SplFileInfo $file): \Traversable;
+    public static function supportedExtensions(): array;
+
+    public function extractSamples(\SplFileInfo $file): \Traversable;
 }

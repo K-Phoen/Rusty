@@ -19,11 +19,12 @@ class PhpDoc implements SampleExtractor
 {
     /** @var \PhpParser\Parser */
     private $parser;
+
     private $pragmaParser;
 
     public function __construct()
     {
-        $this->parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
+        $this->parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
         $this->pragmaParser = new PragmaParser();
     }
 
@@ -54,7 +55,7 @@ class PhpDoc implements SampleExtractor
                 }
 
                 foreach ($this->extractFromDocBlock($comment->getText()) as $data) {
-                    $astSample = $this->getAst('<?php' . PHP_EOL . $data['code']);
+                    $astSample = $this->getAst('<?php'.PHP_EOL.$data['code']);
                     $pragmaDirectives = $this->pragmaParser->getPragmaDirectives($data['pragma']);
 
                     $rewrittenAst = $this->resolveNames($astSample, $namespace, $aliases);

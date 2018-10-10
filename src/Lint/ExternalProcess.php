@@ -13,7 +13,7 @@ class ExternalProcess implements Linter
     public function lint(CodeSample $sample, ExecutionContext $context): bool
     {
         $tmpFile = tempnam(sys_get_temp_dir(), 'rusty_');
-        file_put_contents($tmpFile, '<?php' . PHP_EOL . $sample->getCode());
+        file_put_contents($tmpFile, '<?php'.PHP_EOL.$sample->getCode());
 
         $process = new Process(sprintf('%s -l %s', $context->getPhpExecutable(), $tmpFile));
         $process->run();

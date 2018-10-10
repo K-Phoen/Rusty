@@ -6,5 +6,5 @@ namespace Rusty\Reports;
 
 interface Reporter
 {
-    function report(Report $report);
+    public function report(Report $report);
 }

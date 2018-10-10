@@ -18,7 +18,9 @@ namespace Rusty;
 class PragmaParser
 {
     const IGNORE = 'ignore';
+
     const NO_RUN = 'no_run';
+
     const SHOULD_THROW = 'should_throw';
 
     const KNOWN_DIRECTIVES = [

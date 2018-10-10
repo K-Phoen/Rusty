@@ -35,15 +35,15 @@ class ConsoleReporterTest extends TestCase
         $result = $this->getMockBuilder(Result::class)->disableOriginalConstructor()->getMock();
 
         return [
-            [ new Reports\AnalyseFile($splFile) ],
-            [ new Reports\CodeSampleFound($codeSample) ],
-            [ new Reports\CodeSampleLinted($codeSample) ],
-            [ new Reports\CodeSampleLintFailure($codeSample, new SyntaxError()) ],
-            [ new Reports\CodeSampleSkipped($codeSample) ],
-            [ new Reports\ExecutionFailedAsExpected($codeSample, $result) ],
-            [ new Reports\ExecutionFailure($codeSample, $result, new \Exception()) ],
-            [ new Reports\ExecutionShouldHaveFailed($codeSample, $result) ],
-            [ new Reports\SuccessfulExecution($codeSample, $result) ],
+            [new Reports\AnalyseFile($splFile)],
+            [new Reports\CodeSampleFound($codeSample)],
+            [new Reports\CodeSampleLinted($codeSample)],
+            [new Reports\CodeSampleLintFailure($codeSample, new SyntaxError())],
+            [new Reports\CodeSampleSkipped($codeSample)],
+            [new Reports\ExecutionFailedAsExpected($codeSample, $result)],
+            [new Reports\ExecutionFailure($codeSample, $result, new \Exception())],
+            [new Reports\ExecutionShouldHaveFailed($codeSample, $result)],
+            [new Reports\SuccessfulExecution($codeSample, $result)],
         ];
     }
 }

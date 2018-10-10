@@ -4,14 +4,10 @@ declare(strict_types=1);
 
 namespace Rusty;
 
-use Rusty\Executor;
-use Rusty\Extractor;
-use Rusty\Lint;
-use Rusty\Reports;
-
 class Rusty
 {
     const VERSION = '@package_version@';
+
     const RELEASE_DATE = '@release_date@';
 
     /** @var array<string,\Rusty\Extractor\SampleExtractor> */
@@ -89,6 +85,7 @@ class Rusty
     {
         if ($sample->hasPragma(PragmaParser::IGNORE)) {
             $this->reporter->report(new Reports\CodeSampleSkipped($sample));
+
             return;
         }
 
@@ -108,6 +105,7 @@ class Rusty
             $this->reporter->report(new Reports\CodeSampleLinted($sample));
         } catch (Lint\Exception\SyntaxError $e) {
             $this->reporter->report(new Reports\CodeSampleLintFailure($sample, $e));
+
             throw $e;
         }
     }
@@ -118,11 +116,11 @@ class Rusty
 
         if ($sample->hasPragma(PragmaParser::SHOULD_THROW) && !$result->isSuccessful()) {
             $this->reporter->report(new Reports\ExecutionFailedAsExpected($sample, $result));
-        } else if ($sample->hasPragma(PragmaParser::SHOULD_THROW) && $result->isSuccessful()) {
+        } elseif ($sample->hasPragma(PragmaParser::SHOULD_THROW) && $result->isSuccessful()) {
             $this->reporter->report(new Reports\ExecutionShouldHaveFailed($sample, $result));
 
             throw Executor\Exception\ExecutionError::inCodeSample($sample, $result->getErrorOutput());
-        } else if (!$result->isSuccessful()) {
+        } elseif (!$result->isSuccessful()) {
             $error = Executor\Exception\ExecutionError::inCodeSample($sample, $result->getErrorOutput());
             $this->reporter->report(new Reports\ExecutionFailure($sample, $result, $error));
 

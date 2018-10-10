@@ -5,7 +5,9 @@ namespace Rusty\Executor;
 class Result
 {
     private $succes;
+
     private $output;
+
     private $errorOutput;
 
     public function __construct(bool $success, string $output, string $errorOutput)
