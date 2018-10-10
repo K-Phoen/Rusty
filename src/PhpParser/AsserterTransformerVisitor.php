@@ -21,7 +21,7 @@ class AsserterTransformerVisitor extends NodeVisitorAbstract
 
             array_unshift($node->args, $originalCodeArg);
 
-            return new Node\Expr\StaticCall(new Node\Name('\\' . Asserter::class), 'assert', $node->args, $node->getAttributes());
+            return new Node\Expr\StaticCall(new Node\Name('\\'.Asserter::class), 'assert', $node->args, $node->getAttributes());
         }
     }
 }

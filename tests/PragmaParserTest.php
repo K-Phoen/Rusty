@@ -20,22 +20,22 @@ class PragmaParserTest extends TestCase
     public function inputProvider()
     {
         return [
-            [ '', [] ],
-            [ '  ignore ', [PragmaParser::IGNORE] ],
+            ['', []],
+            ['  ignore ', [PragmaParser::IGNORE]],
 
-            [ '#ignore ', [PragmaParser::IGNORE] ],
+            ['#ignore ', [PragmaParser::IGNORE]],
 
             // known directives
-            [ 'ignore', [PragmaParser::IGNORE] ],
-            [ 'no_run', [PragmaParser::NO_RUN] ],
-            [ 'should_throw', [PragmaParser::SHOULD_THROW] ],
+            ['ignore', [PragmaParser::IGNORE]],
+            ['no_run', [PragmaParser::NO_RUN]],
+            ['should_throw', [PragmaParser::SHOULD_THROW]],
 
             // unknown directives are silently ignored
-            [ 'unknown_directive', [] ],
+            ['unknown_directive', []],
 
             // it makes no sense (for the moment), but several directives can be recognized
-            [ 'no_run should_throw', [PragmaParser::NO_RUN, PragmaParser::SHOULD_THROW] ],
-            [ ' ignore  no_run ', [PragmaParser::IGNORE, PragmaParser::NO_RUN] ],
+            ['no_run should_throw', [PragmaParser::NO_RUN, PragmaParser::SHOULD_THROW]],
+            [' ignore  no_run ', [PragmaParser::IGNORE, PragmaParser::NO_RUN]],
         ];
     }
 }

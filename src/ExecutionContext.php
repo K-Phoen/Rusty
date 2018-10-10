@@ -40,10 +40,15 @@ use Rusty\Finder\FilesFinder;
 class ExecutionContext
 {
     private $targets;
+
     private $disableLint = false;
+
     private $disableExecute = false;
+
     private $stopOnError = false;
+
     private $bootstrapFiles = [];
+
     private $allowedExtensions = [];
 
     public function __construct(array $targets, array $bootstrapFiles = [], array $allowedExtensions = [])

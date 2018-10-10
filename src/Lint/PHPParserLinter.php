@@ -16,13 +16,13 @@ class PHPParserLinter implements Linter
 
     public function __construct($kind = ParserFactory::PREFER_PHP7)
     {
-        $this->parser = (new ParserFactory)->create($kind);
+        $this->parser = (new ParserFactory())->create($kind);
     }
 
     public function lint(CodeSample $sample, ExecutionContext $context): bool
     {
         try {
-            $this->parser->parse('<?php ' . $sample->getCode());
+            $this->parser->parse('<?php '.$sample->getCode());
         } catch (ParserError $e) {
             throw Exception\SyntaxError::inCodeSample($sample, $e->getMessage());
         }

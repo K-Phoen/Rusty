@@ -7,8 +7,11 @@ namespace Rusty;
 class CodeSample
 {
     private $file;
+
     private $line;
+
     private $code;
+
     private $pragmaDirectives = [];
 
     public function __construct(\SplFileInfo $file, int $line, string $code, array $pragmaDirectives = [])

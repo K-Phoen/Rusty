@@ -41,7 +41,7 @@ class MarkdownTest extends TestCase
      */
     public function testItExtractsSamplesFromFencedCodeBlocks($documentFile, array $documentData)
     {
-        $file = $this->getFileMock($this->fs->url() . '/' . $documentFile);
+        $file = $this->getFileMock($this->fs->url().'/'.$documentFile);
         $extractor = new Extractor\Markdown();
 
         $samples = iterator_to_array($extractor->extractSamples($file));
@@ -73,7 +73,7 @@ class MarkdownTest extends TestCase
 
     private static function documentWithNoSample()
     {
-        $document = <<<MD
+        $document = <<<'MD'
 # This is a markdown document
 
 It has no code sample.
@@ -87,7 +87,7 @@ MD;
 
     private static function documentWithNoPHPBlocks()
     {
-        $document = <<<MD
+        $document = <<<'MD'
 # This is a markdown document
 
 ```bash
@@ -103,7 +103,7 @@ MD;
 
     private static function documentWithASampleAndPragma()
     {
-        $document = <<<MD
+        $document = <<<'MD'
 # This is a markdown document
 
 ```php
@@ -119,14 +119,14 @@ MD;
                 [
                     'pragma' => ['ignore'],
                     'content' => "# ignore\n\nfunction foo() { }",
-                ]
+                ],
             ],
         ];
     }
 
     private static function documentWithTwoSamples()
     {
-        $document = <<<MD
+        $document = <<<'MD'
 # This is a markdown document
 
 With a code sample:
@@ -151,7 +151,7 @@ MD;
                 ],
                 [
                     'pragma' => [],
-                    'content' => "function answer() { return 42; }",
+                    'content' => 'function answer() { return 42; }',
                 ],
             ],
         ];
@@ -159,7 +159,7 @@ MD;
 
     private static function documentWithIndentedCodeBlocks()
     {
-        $document = <<<MD
+        $document = <<<'MD'
 # This is a markdown document
 
 With a code sample:
@@ -180,7 +180,7 @@ MD;
                 ],
                 [
                     'pragma' => [],
-                    'content' => "function answer() { return 42; }",
+                    'content' => 'function answer() { return 42; }',
                 ],
             ],
         ];

@@ -55,6 +55,6 @@ CODE;
 
     private function getRuntimeNSDir()
     {
-        return realpath(__DIR__ . '/../src/Runtime');
+        return realpath(__DIR__.'/../src/Runtime');
     }
 }

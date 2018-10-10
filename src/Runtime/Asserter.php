@@ -10,7 +10,7 @@ class Asserter
             fprintf(STDERR, '[Rusty] Assertion failed: "%s"', $originalCode);
 
             if ($msg) {
-                printf(STDERR, ' ' . $msg);
+                printf(STDERR, ' '.$msg);
             }
 
             exit(1);
