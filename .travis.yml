@@ -3,7 +3,7 @@ language: php
 sudo: false
 
 php:
-    - 7.0
+    - 7.1
 
 matrix:
     fast_finish: true
@@ -16,7 +16,7 @@ before_install:
     - composer self-update
 
 install:
-    - composer update --optimize-autoloader --no-interaction --ignore-platform-reqs ${COMPOSER_FLAGS}
+    - composer update --optimize-autoloader --no-interaction ${COMPOSER_FLAGS}
 
 script:
     - make tests
