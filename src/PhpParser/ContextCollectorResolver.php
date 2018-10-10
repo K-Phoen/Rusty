@@ -46,12 +46,7 @@ class ContextCollectorResolver extends NodeVisitorAbstract
         // Type is determined either by individual element or whole use declaration
         $type |= $use->type;
 
-        // Constant names are case sensitive, everything else case insensitive
-        if ($type === Stmt\Use_::TYPE_CONSTANT) {
-            $aliasName = $use->alias;
-        } else {
-            $aliasName = strtolower($use->alias);
-        }
+        $aliasName = (string) $use->getAlias();
 
         if (isset($this->aliases[$type][$aliasName])) {
             $typeStringMap = array(

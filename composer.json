@@ -10,7 +10,7 @@
         "symfony/console": "^3.0|^4.0",
         "symfony/finder": "^3.0|^4.0",
 
-        "nikic/php-parser": "^3.0",
+        "nikic/php-parser": "^4.1",
         "league/commonmark": "^0.13",
         "gregwar/rst": "^1.0"
     },
