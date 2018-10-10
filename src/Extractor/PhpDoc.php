@@ -85,8 +85,17 @@ class PhpDoc implements SampleExtractor
 
     private function resolveNames($ast, $namespace, array $aliases)
     {
+        $resolver = new NameResolver();
+        $resolver->getNameContext()->startNamespace($namespace);
+
+        foreach ($aliases as $type => $groupedAliases) {
+            foreach ($groupedAliases as $aliasName => $fqcn) {
+                $resolver->getNameContext()->addAlias($fqcn, $aliasName, $type);
+            }
+        }
+
         $traverser = new NodeTraverser();
-        $traverser->addVisitor(new NameResolver($namespace, $aliases));
+        $traverser->addVisitor($resolver);
 
         return $traverser->traverse($ast);
     }

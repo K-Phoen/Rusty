@@ -4,13 +4,13 @@
     "license": "MIT",
     "bin": ["bin/rusty"],
     "require": {
-        "php": "^7.0",
+        "php": "^7.1",
 
-        "symfony/process": "^3.0|^4.0",
-        "symfony/console": "^3.0|^4.0",
-        "symfony/finder": "^3.0|^4.0",
+        "symfony/process": "^4.0",
+        "symfony/console": "^4.0",
+        "symfony/finder": "^4.0",
 
-        "nikic/php-parser": "^3.0",
+        "nikic/php-parser": "^4.1",
         "league/commonmark": "^0.13",
         "gregwar/rst": "^1.0"
     },

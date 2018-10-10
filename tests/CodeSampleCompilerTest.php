@@ -17,7 +17,7 @@ class CodeSampleCompilerTest extends TestCase
 <?php
 require_once "$runtimeNSDir/bootstrap.php";
 require_once "/dir/file.php";
-\Rusty\Runtime\Asserter::assert('assert(42 === 42);', 42 === 42);
+\Rusty\Runtime\Asserter::assert('assert(42 === 42)', 42 === 42);
 CODE;
 
         $compiler = new CodeSampleCompiler();

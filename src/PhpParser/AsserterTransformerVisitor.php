@@ -13,7 +13,7 @@ class AsserterTransformerVisitor extends NodeVisitorAbstract
     {
         if ($node instanceof Node\Expr\FuncCall && $node->name->getFirst() === 'assert') {
             $prettyPrinter = new PrettyPrinter\Standard();
-            $originalCode = $prettyPrinter->prettyPrint([$node]);
+            $originalCode = $prettyPrinter->prettyPrintExpr($node);
 
             $originalCodeArg = new Node\Arg(
                 new Node\Scalar\String_($originalCode)
