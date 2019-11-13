@@ -29,7 +29,7 @@ class MarkdownTest extends TestCase
     /**
      * set up test environmemt
      */
-    public function setUp()
+    public function setUp(): void
     {
         $documents = self::documents();
 
@@ -39,7 +39,7 @@ class MarkdownTest extends TestCase
     /**
      * @dataProvider documentsProvider
      */
-    public function testItExtractsSamplesFromFencedCodeBlocks($documentFile, array $documentData)
+    public function testItExtractsSamplesFromFencedCodeBlocks($documentFile, array $documentData): void
     {
         $file = $this->getFileMock($this->fs->url().'/'.$documentFile);
         $extractor = new Extractor\Markdown();

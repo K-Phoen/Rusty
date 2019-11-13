@@ -10,7 +10,7 @@ class PragmaParserTest extends TestCase
     /**
      * @dataProvider inputProvider
      */
-    public function testItParsesPragmaDirectives(string $input, array $expectedDirectives)
+    public function testItParsesPragmaDirectives(string $input, array $expectedDirectives): void
     {
         $parser = new PragmaParser();
 

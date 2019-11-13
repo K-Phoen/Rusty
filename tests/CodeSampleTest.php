@@ -7,7 +7,7 @@ use Rusty\CodeSample;
 
 class CodeSampleTest extends TestCase
 {
-    public function testItBehavesLikeAContainer()
+    public function testItBehavesLikeAContainer(): void
     {
         /** @var \SplFileInfo $splFileInfoMock */
         $splFileInfoMock = $this->createMock(\SplFileInfo::class);
@@ -25,7 +25,7 @@ class CodeSampleTest extends TestCase
         $this->assertFalse($sample->hasPragma('other directive'));
     }
 
-    public function testItStripsPHPStartingTagFromCode()
+    public function testItStripsPHPStartingTagFromCode(): void
     {
         /** @var \SplFileInfo $splFileInfoMock */
         $splFileInfoMock = $this->createMock(\SplFileInfo::class);

@@ -15,7 +15,7 @@ class ConsoleReporterTest extends TestCase
     /**
      * @dataProvider reportProvider
      */
-    public function testHandledReportsAreDisplayed(Reports\Report $report)
+    public function testHandledReportsAreDisplayed(Reports\Report $report): void
     {
         $output = $this->createMock(OutputInterface::class);
         $formatter = $this->createMock(FormatterHelper::class);

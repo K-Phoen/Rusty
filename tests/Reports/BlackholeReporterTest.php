@@ -7,7 +7,7 @@ use Rusty\Reports;
 
 class BlackholeReporterTest extends TestCase
 {
-    public function testItDoesNothing()
+    public function testItDoesNothing(): void
     {
         $splFile = $this->createMock(\SplFileInfo::class);
         $reporter = new Reports\BlackholeReporter();

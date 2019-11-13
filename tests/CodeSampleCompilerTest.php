@@ -9,7 +9,7 @@ use Rusty\ExecutionContext;
 
 class CodeSampleCompilerTest extends TestCase
 {
-    public function testItTransformsAssertCalls()
+    public function testItTransformsAssertCalls(): void
     {
         $sample = new CodeSample($this->getFileMock(), 42, 'assert(42 === 42);');
         $runtimeNSDir = $this->getRuntimeNSDir();
@@ -25,7 +25,7 @@ CODE;
         $this->assertSame($expectedCode, $compiler->compile($sample, new ExecutionContext(['./target-dir/'])));
     }
 
-    public function testItAllowsBootstrapFilesToBePrepended()
+    public function testItAllowsBootstrapFilesToBePrepended(): void
     {
         $sample = new CodeSample($this->getFileMock(), 42, 'new Foo();');
         $context = new ExecutionContext(['./target-dir/'], ['/some/bootstrap.php', '/other/bootstrap.php']);

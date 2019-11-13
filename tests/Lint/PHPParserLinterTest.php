@@ -12,7 +12,7 @@ class PHPParserLinterTest extends TestCase
     /**
      * @dataProvider validInputProvider
      */
-    public function testValidCodeThrowNoError(string $code)
+    public function testValidCodeThrowNoError(string $code): void
     {
         /** @var \SplFileInfo $splFileInfoMock */
         $splFileInfoMock = $this->createMock(\SplFileInfo::class);
@@ -32,10 +32,11 @@ class PHPParserLinterTest extends TestCase
 
     /**
      * @dataProvider invalidInputProvider
-     * @expectedException \Rusty\Lint\Exception\SyntaxError
      */
-    public function testInvalidCodeThrowAnError(string $code)
+    public function testInvalidCodeThrowAnError(string $code): void
     {
+        $this->expectException(\Rusty\Lint\Exception\SyntaxError::class);
+
         /** @var \SplFileInfo $splFileInfoMock */
         $splFileInfoMock = $this->createMock(\SplFileInfo::class);
         $sample = new CodeSample($splFileInfoMock, 42, $code);
