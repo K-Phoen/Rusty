@@ -27,7 +27,7 @@ class ExternalProcess implements Executor
         file_put_contents($tmpFile, $code);
 
         try {
-            $process = new Process(sprintf('%s %s', $context->getPhpExecutable(), $tmpFile));
+            $process = new Process([$context->getPhpExecutable(), $tmpFile]);
             $process->run();
         } finally {
             unlink($tmpFile);
