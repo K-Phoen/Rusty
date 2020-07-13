@@ -15,7 +15,7 @@ class ExternalProcess implements Linter
         $tmpFile = tempnam(sys_get_temp_dir(), 'rusty_');
         file_put_contents($tmpFile, '<?php'.PHP_EOL.$sample->getCode());
 
-        $process = new Process(sprintf('%s -l %s', $context->getPhpExecutable(), $tmpFile));
+        $process = new Process([$context->getPhpExecutable(), '-l', $tmpFile]);
         $process->run();
 
         unlink($tmpFile);

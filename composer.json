@@ -1,22 +1,23 @@
 {
     "name": "kphoen/rusty",
+    "description": "Documentation as tests \"à la\" Rust for PHP",
     "type": "library",
     "license": "MIT",
     "bin": ["bin/rusty"],
     "require": {
-        "php": "^7.1",
+        "php": "^7.2",
 
-        "symfony/process": "^3.0|^4.0",
-        "symfony/console": "^3.0|^4.0",
-        "symfony/finder": "^3.0|^4.0",
+        "symfony/process": "^4.4|^5.0",
+        "symfony/console": "^4.4|^5.0",
+        "symfony/finder": "^4.4|^5.0",
 
         "nikic/php-parser": "^3.0",
-        "league/commonmark": "^0.13",
+        "league/commonmark": "^0.18,>=0.18.3",
         "gregwar/rst": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^7.0",
-        "mikey179/vfsStream": "^1.6"
+        "mikey179/vfsstream": "^1.6"
     },
     "autoload": {
         "psr-4": { "Rusty\\": "src/" }
