@@ -1,5 +1,6 @@
 {
     "name": "kphoen/rusty",
+    "description": "Documentation as tests \"à la\" Rust for PHP",
     "type": "library",
     "license": "MIT",
     "bin": ["bin/rusty"],
