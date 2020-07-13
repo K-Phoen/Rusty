@@ -60,13 +60,10 @@ class ContextCollectorResolver extends NodeVisitorAbstract
                 Stmt\Use_::TYPE_CONSTANT => 'const ',
             );
 
-            throw new \PhpParser\Error(
-                sprintf(
-                    'Cannot use %s%s as %s because the name is already in use',
-                    $typeStringMap[$type], $name, $use->alias
-                ),
-                $use->getLine()
-            );
+            throw new \PhpParser\Error(sprintf(
+                'Cannot use %s%s as %s because the name is already in use',
+                $typeStringMap[$type], $name, $use->alias
+            ), $use->getLine());
         }
 
         $this->aliases[$type][$aliasName] = $name;
