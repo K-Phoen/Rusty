@@ -13,7 +13,9 @@
 
         "nikic/php-parser": "^3.0",
         "league/commonmark": "^0.18,>=0.18.3",
-        "gregwar/rst": "^1.0"
+        "gregwar/rst": "^1.0",
+        "symfony/polyfill-php72": "^1.17",
+        "symfony/polyfill-php71": "^1.17"
     },
     "require-dev": {
         "phpunit/phpunit": "^7.0",
