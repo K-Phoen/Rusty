@@ -11,7 +11,7 @@
         "symfony/finder": "^3.0|^4.0|^5.0",
 
         "nikic/php-parser": "^3.0",
-        "league/commonmark": "^0.13",
+        "league/commonmark": "^0.18,>=0.18.3",
         "gregwar/rst": "^1.0"
     },
     "require-dev": {
