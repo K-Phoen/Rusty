@@ -32,10 +32,10 @@ class PHPParserLinterTest extends TestCase
 
     /**
      * @dataProvider invalidInputProvider
-     * @expectedException \Rusty\Lint\Exception\SyntaxError
      */
     public function testInvalidCodeThrowAnError(string $code)
     {
+        $this->expectException(\Rusty\Lint\Exception\SyntaxError::class);
         /** @var \SplFileInfo $splFileInfoMock */
         $splFileInfoMock = $this->createMock(\SplFileInfo::class);
         $sample = new CodeSample($splFileInfoMock, 42, $code);

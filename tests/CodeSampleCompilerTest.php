@@ -19,6 +19,14 @@ require_once "$runtimeNSDir/bootstrap.php";
 require_once "/dir/file.php";
 \Rusty\Runtime\Asserter::assert('assert(42 === 42);', 42 === 42);
 CODE;
+        if (PHP_MAJOR_VERSION > 7) {
+            $expectedCode = <<<CODE
+<?php
+require_once "$runtimeNSDir/bootstrap.php";
+require_once "/dir/file.php";
+\Rusty\Runtime\Asserter::assert('assert(42 === 42)', 42 === 42);
+CODE;
+        }
 
         $compiler = new CodeSampleCompiler();
 
