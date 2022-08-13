@@ -28,7 +28,7 @@ class RstTest extends TestCase
     /**
      * set up test environmemt
      */
-    public function setUp()
+    public function setUp(): void
     {
         $documents = self::documents();
 
